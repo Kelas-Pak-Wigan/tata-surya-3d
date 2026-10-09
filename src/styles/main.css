@@ -1,0 +1,1535 @@
+/* ==========================================================================
+   TATA SURYA 3D - GAME EDUKASI KELAS 6 SD
+   Styling Utama: Antarmuka Semi-Realistis, Aksesibilitas PID 75" & Laptop
+   ========================================================================== */
+
+:root {
+  --bg-dark: #060814;
+  --bg-panel: rgba(13, 19, 38, 0.88);
+  --bg-panel-solid: #0d1326;
+  --bg-card: rgba(22, 32, 60, 0.75);
+  --bg-card-hover: rgba(30, 44, 82, 0.9);
+  
+  --primary: #00d2ff;
+  --primary-hover: #33dcff;
+  --primary-glow: rgba(0, 210, 255, 0.4);
+  
+  --accent-sun: #ffaa00;
+  --accent-earth: #2b82c9;
+  --accent-success: #2ed573;
+  --accent-danger: #ff4757;
+  --accent-warning: #ffa502;
+  
+  --text-main: #f3f6fc;
+  --text-muted: #a6b5d6;
+  --text-dim: #7182a6;
+  
+  --border-subtle: rgba(255, 255, 255, 0.12);
+  --border-bright: rgba(0, 210, 255, 0.4);
+  
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+  
+  --shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.55);
+  --shadow-glow: 0 0 24px var(--primary-glow);
+
+  --font-main: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-heading: 'Trebuchet MS', var(--font-main);
+
+  /* Dimensi Sentuh Minimum PID 75" */
+  --touch-target-min: 58px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: var(--font-main);
+  font-size: 18px; /* Ukuran dasar besar untuk keterbacaan kelas */
+  line-height: 1.5;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ==========================================================================
+   LAYOUT UTAMA APLIKASI
+   ========================================================================== */
+#app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Header Navigasi Atas */
+.app-header {
+  height: 72px;
+  background: rgba(6, 10, 24, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  z-index: 100;
+  flex-shrink: 0;
+}
+
+.header-container {
+  width: 100%;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  transition: background 0.2s;
+}
+
+.header-brand:hover, .header-brand:focus-visible {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.brand-logo {
+  font-size: 32px;
+}
+
+.brand-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.3px;
+}
+
+.brand-subtitle {
+  font-size: 14px;
+  color: var(--primary);
+  font-weight: 600;
+  display: block;
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-item-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  height: 48px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  border-radius: var(--radius-full);
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-item-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.nav-item-btn.active {
+  color: #060814;
+  background: var(--primary);
+  border-color: var(--primary);
+  box-shadow: 0 0 16px var(--primary-glow);
+}
+
+.header-tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tool-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  color: var(--text-main);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tool-btn:hover, .tool-btn:focus-visible {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--primary);
+}
+
+/* Kontainer Utama Layar */
+.main-viewport {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: calc(100% - 72px);
+}
+
+/* Kanvas 3D Latar Belakang */
+.canvas-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  touch-action: none;
+}
+
+.canvas-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+  touch-action: none;
+  cursor: grab;
+}
+
+.canvas-container canvas:active {
+  cursor: grabbing;
+}
+
+/* Kontainer UI Overlay */
+.ui-overlay-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Layar-layar yang memiliki visual 3D interaktif: buat layer utamanya tembus pointer */
+.screen-home,
+.screen-earth,
+.screen-exploration,
+.screen-quiz-interactive {
+  pointer-events: none;
+}
+
+.screen-quiz-selection {
+  pointer-events: auto;
+}
+
+/* Hanya elemen interaktif yang menangkap sentuhan/klik */
+.screen-home .home-hero,
+.screen-home .home-menu-grid,
+.screen-home .home-footer-info,
+.viewport-overlay,
+.earth-info-panel,
+.planet-profile-drawer,
+.quiz-form-pane,
+.quiz-3d-header,
+.quiz-3d-controls,
+.quiz-selection-header,
+.quiz-planets-grid,
+.planet-3d-label {
+  pointer-events: auto;
+}
+
+/* ==========================================================================
+   TOMBOL & KONTROL UMUM (TOUCH FRIENDLY PID 75")
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px 26px;
+  min-height: var(--touch-target-min);
+  font-size: 19px;
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  transition: transform 0.15s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #00d2ff, #0077ff);
+  color: #ffffff;
+  box-shadow: 0 4px 18px rgba(0, 150, 255, 0.4);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #26dcff, #1a85ff);
+  box-shadow: 0 6px 24px rgba(0, 180, 255, 0.6);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border: 1px solid var(--border-subtle);
+  backdrop-filter: blur(8px);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+
+.btn-outline:hover {
+  background: rgba(0, 210, 255, 0.12);
+}
+
+.btn-large {
+  font-size: 24px;
+  padding: 20px 42px;
+  min-height: 68px;
+  border-radius: var(--radius-lg);
+}
+
+.btn-pulse {
+  animation: pulse-glow 2.5s infinite;
+}
+
+@keyframes pulse-glow {
+  0% { box-shadow: 0 0 0 0 rgba(0, 210, 255, 0.6); }
+  70% { box-shadow: 0 0 0 18px rgba(0, 210, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 210, 255, 0); }
+}
+
+/* Bar Kontrol 3D Kiri Bawah */
+.controls-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(10, 16, 36, 0.85);
+  backdrop-filter: blur(10px);
+  padding: 10px 14px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-subtle);
+}
+
+.ctrl-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 58px;
+  min-height: 58px;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ctrl-btn:hover, .ctrl-btn:focus-visible {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: var(--primary);
+}
+
+.ctrl-btn:active {
+  transform: scale(0.92);
+}
+
+.ctrl-icon {
+  font-size: 20px;
+}
+
+.ctrl-label {
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 2px;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   1. LAYAR BERANDA (HOMESCREEN)
+   ========================================================================== */
+.screen-home {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 36px 40px;
+  overflow-y: auto;
+  position: relative;
+  background: radial-gradient(circle at 50% 20%, rgba(20, 35, 75, 0.45) 0%, rgba(6, 8, 20, 0.95) 80%);
+}
+
+.home-hero {
+  text-align: center;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  background: rgba(0, 210, 255, 0.12);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius-full);
+  color: var(--primary);
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  letter-spacing: 0.5px;
+}
+
+/* Teks Wajib Sesuai PRD */
+.main-title {
+  font-family: var(--font-heading);
+  font-size: 52px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  line-height: 1.15;
+  color: #ffffff;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 210, 255, 0.4);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.sub-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--accent-sun);
+  text-shadow: 0 2px 14px rgba(255, 170, 0, 0.4);
+  margin-bottom: 18px;
+}
+
+.hero-desc {
+  font-size: 21px;
+  color: var(--text-muted);
+  max-width: 860px;
+  margin: 0 auto 28px;
+  line-height: 1.6;
+}
+
+.hero-action {
+  margin-bottom: 32px;
+}
+
+/* Grid Menu Tiga Kartu */
+.home-menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  width: 100%;
+  max-width: 1350px;
+  margin: 0 auto 24px;
+}
+
+.menu-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.menu-card:hover, .menu-card:focus-visible {
+  transform: translateY(-8px);
+  border-color: var(--primary);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 24px var(--primary-glow);
+  outline: none;
+}
+
+.card-icon-wrap {
+  width: 76px;
+  height: 76px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  font-size: 40px;
+}
+
+.card-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.card-desc {
+  font-size: 18px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  flex: 1;
+  margin-bottom: 20px;
+}
+
+.card-btn-link {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.home-footer-info {
+  font-size: 15px;
+  color: var(--text-dim);
+  text-align: center;
+  padding: 10px 0;
+}
+
+/* ==========================================================================
+   2. LAYAR BUMI KITA
+   ========================================================================== */
+.screen-earth {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.earth-info-panel {
+  width: 520px;
+  height: 100%;
+  background: var(--bg-panel);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-left: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 28px;
+  z-index: 20;
+  box-shadow: -10px 0 35px rgba(0, 0, 0, 0.6);
+}
+
+.panel-header {
+  margin-bottom: 16px;
+}
+
+.panel-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  background: rgba(0, 210, 255, 0.15);
+  border-radius: var(--radius-sm);
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.panel-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.25;
+}
+
+.panel-subtitle {
+  font-size: 16px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* Navigasi Tab Cepat */
+.earth-tabs-nav {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+  scrollbar-width: thin;
+}
+
+.tab-btn {
+  padding: 8px 14px;
+  min-height: 44px;
+  white-space: nowrap;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab-btn.active {
+  background: var(--primary);
+  color: #060814;
+  border-color: var(--primary);
+  font-weight: 700;
+}
+
+.earth-cards-container {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.earth-material-card {
+  display: none;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 22px;
+}
+
+.earth-material-card.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+.card-header-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  background: rgba(255, 170, 0, 0.15);
+  border-radius: var(--radius-sm);
+  color: var(--accent-sun);
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.material-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.material-summary {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 14px;
+  line-height: 1.45;
+}
+
+.material-points {
+  list-style: none;
+  margin-bottom: 18px;
+}
+
+.material-points li {
+  font-size: 17px;
+  color: var(--text-main);
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.material-tip {
+  display: flex;
+  gap: 12px;
+  background: rgba(0, 210, 255, 0.08);
+  border-left: 4px solid var(--primary);
+  padding: 14px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 16px;
+  color: var(--text-muted);
+}
+
+.earth-panel-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.earth-panel-actions .btn {
+  flex: 1;
+}
+
+/* ==========================================================================
+   3. LAYAR EKSPLORASI LUAR ANGKASA
+   ========================================================================== */
+.screen-exploration {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* Planet Selector Bar di Atas */
+.planet-selector-bar {
+  display: flex;
+  gap: 8px;
+  background: rgba(10, 16, 36, 0.85);
+  backdrop-filter: blur(12px);
+  padding: 8px 14px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-subtle);
+  max-width: 90%;
+  overflow-x: auto;
+}
+
+.planet-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  min-height: 48px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid transparent;
+  border-radius: var(--radius-full);
+  color: var(--text-main);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.planet-pill-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.planet-pill-btn.active {
+  background: rgba(0, 210, 255, 0.2);
+  border-color: var(--primary);
+  color: #fff;
+  font-weight: 700;
+}
+
+.pill-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
+}
+
+/* Catatan Skala Edukatif */
+.scale-disclaimer {
+  background: rgba(6, 10, 24, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 8px 18px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-subtle);
+  font-size: 15px;
+  color: var(--text-muted);
+}
+
+/* Panel Profil Planet (Drawer Kanan) */
+.planet-profile-drawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 540px;
+  height: 100%;
+  background: var(--bg-panel);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-left: 1px solid var(--border-subtle);
+  box-shadow: -12px 0 40px rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  z-index: 50;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.planet-profile-drawer.hidden {
+  transform: translateX(105%);
+}
+
+.planet-profile-drawer.visible {
+  transform: translateX(0);
+}
+
+.drawer-header {
+  padding: 24px 28px;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.planet-order-tag {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent-sun);
+  margin-bottom: 4px;
+}
+
+.drawer-planet-name {
+  font-size: 34px;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+
+.planet-type-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(0, 210, 255, 0.15);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius-full);
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.drawer-close-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  font-size: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.drawer-close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.info-callout {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--primary);
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.metric-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metric-icon {
+  font-size: 22px;
+}
+
+.metric-label {
+  font-size: 14px;
+  color: var(--text-dim);
+  font-weight: 600;
+}
+
+.metric-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.metric-note {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.section-text {
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--text-main);
+}
+
+.comp-detail-box {
+  font-size: 15px;
+  color: var(--text-muted);
+  background: rgba(0, 0, 0, 0.2);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+}
+
+.fun-facts-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fun-facts-list li {
+  display: flex;
+  gap: 12px;
+  font-size: 17px;
+  line-height: 1.5;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.fact-bullet {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.source-box {
+  margin-top: 10px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-subtle);
+  color: var(--text-dim);
+}
+
+.drawer-footer {
+  padding: 20px 28px;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  gap: 12px;
+  background: rgba(10, 15, 30, 0.8);
+}
+
+.drawer-footer .btn {
+  flex: 1;
+}
+
+/* ==========================================================================
+   4. LAYAR QUIZ (SELEKSI PLANET & INTERAKTIF)
+   ========================================================================== */
+.screen-quiz-selection {
+  width: 100%;
+  height: 100%;
+  padding: 36px 48px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.quiz-selection-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.quiz-main-title {
+  font-size: 34px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.quiz-sub-title {
+  font-size: 19px;
+  color: var(--text-muted);
+}
+
+.quiz-planets-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  max-width: 1400px;
+}
+
+.quiz-planet-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  backdrop-filter: blur(10px);
+}
+
+.quiz-planet-card:hover, .quiz-planet-card:focus-visible {
+  transform: translateY(-6px);
+  border-color: var(--primary);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px var(--primary-glow);
+  outline: none;
+}
+
+.card-planet-preview {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.planet-circle {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  position: relative;
+}
+
+.preview-rings {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 110px;
+  height: 30px;
+  border: 4px solid rgba(220, 190, 140, 0.7);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) rotate(-20deg);
+}
+
+.card-planet-order {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent-sun);
+  display: block;
+}
+
+.card-planet-name {
+  font-size: 26px;
+  font-weight: 800;
+  color: #fff;
+  margin: 2px 0 6px;
+}
+
+.card-planet-type {
+  font-size: 14px;
+  color: var(--text-dim);
+  display: block;
+  margin-bottom: 12px;
+}
+
+.card-planet-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(0, 210, 255, 0.15);
+  border-radius: var(--radius-full);
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Layout Split Layar Kuis Interaktif */
+.screen-quiz-interactive {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  position: relative;
+}
+
+.quiz-3d-pane {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px;
+  pointer-events: none;
+}
+
+.quiz-3d-pane > * {
+  pointer-events: auto;
+}
+
+.quiz-3d-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.planet-badge-group {
+  background: rgba(10, 16, 36, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+}
+
+.badge-planet-order {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent-sun);
+}
+
+.badge-planet-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.quiz-3d-controls {
+  position: absolute;
+  bottom: 60px;
+  left: 24px;
+  display: flex;
+  gap: 8px;
+}
+
+.ctrl-btn-mini {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(10, 16, 36, 0.85);
+  border: 1px solid var(--border-subtle);
+  color: #fff;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.ctrl-btn-mini:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.quiz-3d-footer-hint {
+  background: rgba(10, 16, 36, 0.8);
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  color: var(--text-muted);
+  align-self: flex-start;
+}
+
+/* Panel Form Soal Sisi Kanan */
+.quiz-form-pane {
+  width: 620px;
+  height: 100%;
+  background: var(--bg-panel);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-left: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 32px;
+  box-shadow: -10px 0 35px rgba(0, 0, 0, 0.6);
+  z-index: 20;
+}
+
+.quiz-form-header {
+  margin-bottom: 16px;
+}
+
+.progress-title {
+  font-size: 18px;
+  color: var(--text-muted);
+  display: block;
+}
+
+.progress-count {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-top: 4px;
+  display: inline-block;
+}
+
+.quiz-alert-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 71, 87, 0.15);
+  border: 1px solid var(--accent-danger);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  font-size: 16px;
+  color: #ffb8b8;
+  margin-bottom: 16px;
+}
+
+.quiz-alert-banner.hidden {
+  display: none;
+}
+
+.quiz-score-banner {
+  padding: 20px;
+  border-radius: var(--radius-md);
+  margin-bottom: 18px;
+  border: 1px solid transparent;
+}
+
+.score-high {
+  background: rgba(46, 213, 115, 0.18);
+  border-color: var(--accent-success);
+}
+
+.score-mid {
+  background: rgba(255, 165, 2, 0.18);
+  border-color: var(--accent-warning);
+}
+
+.score-main {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.score-emoji {
+  font-size: 42px;
+}
+
+.score-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.score-desc {
+  font-size: 18px;
+  color: var(--text-main);
+  margin-top: 4px;
+}
+
+.quiz-questions-list {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.quiz-question-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 22px;
+  transition: border-color 0.2s;
+}
+
+.quiz-question-card.highlight-unanswered {
+  border-color: var(--accent-danger);
+  box-shadow: 0 0 16px rgba(255, 71, 87, 0.5);
+}
+
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.question-number {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-dim);
+}
+
+.question-category-tag {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent-sun);
+  background: rgba(255, 170, 0, 0.12);
+  padding: 2px 10px;
+  border-radius: var(--radius-full);
+}
+
+.question-text {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.45;
+  margin-bottom: 16px;
+}
+
+.options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.option-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  min-height: 58px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  color: var(--text-main);
+  font-size: 18px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.option-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.option-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* Status Terpilih Netral (Sebelum Cek Jawaban) */
+.option-btn.option-selected {
+  background: rgba(0, 210, 255, 0.18);
+  border-color: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 0 12px var(--primary-glow);
+}
+
+.opt-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  font-size: 16px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.option-selected .opt-label {
+  background: var(--primary);
+  color: #060814;
+}
+
+.opt-text {
+  flex: 1;
+}
+
+/* Status Setelah Cek Jawaban */
+.option-btn.option-correct {
+  background: rgba(46, 213, 115, 0.22);
+  border-color: var(--accent-success);
+  color: #fff;
+}
+
+.option-btn.option-correct .opt-label {
+  background: var(--accent-success);
+  color: #000;
+}
+
+.option-btn.option-incorrect {
+  background: rgba(255, 71, 87, 0.2);
+  border-color: var(--accent-danger);
+  color: #ffb8b8;
+}
+
+.option-btn.option-incorrect .opt-label {
+  background: var(--accent-danger);
+  color: #fff;
+}
+
+.result-badge-correct {
+  color: var(--accent-success);
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.result-badge-wrong {
+  color: var(--accent-danger);
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.explanation-box {
+  margin-top: 14px;
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.explanation-box.exp-correct {
+  background: rgba(46, 213, 115, 0.12);
+  border-left: 4px solid var(--accent-success);
+  color: #d1fae5;
+}
+
+.explanation-box.exp-wrong {
+  background: rgba(255, 165, 2, 0.12);
+  border-left: 4px solid var(--accent-warning);
+  color: #fef3c7;
+}
+
+.exp-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.quiz-form-footer {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.quiz-form-footer .btn {
+  width: 100%;
+}
+
+.quiz-post-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ==========================================================================
+   LABEL 3D & POSITIONING OVERLAYS
+   ========================================================================== */
+.solar-system-labels-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.planet-3d-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: auto;
+  background: rgba(6, 12, 32, 0.85);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(0, 210, 255, 0.4);
+  color: #ffffff;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  transition: transform 0.15s, background-color 0.15s;
+}
+
+.planet-3d-label:hover {
+  background: var(--primary);
+  color: #060814;
+  transform: translate(-50%, -100%) scale(1.1) !important;
+}
+
+.viewport-overlay {
+  position: absolute;
+  z-index: 30;
+}
+
+.viewport-overlay.top-left {
+  top: 24px;
+  left: 24px;
+}
+
+.viewport-overlay.top-center {
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.viewport-overlay.bottom-left {
+  bottom: 24px;
+  left: 24px;
+}
+
+.viewport-overlay.bottom-center {
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.hint-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(10, 16, 36, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 8px 18px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-subtle);
+  font-size: 15px;
+  color: var(--text-muted);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+

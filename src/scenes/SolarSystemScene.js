@@ -1,0 +1,383 @@
+import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { SUN_DATA, PLANETS_DATA } from '../data/planets.js';
+import { PlanetMeshFactory } from '../gfx/planetMeshes.js';
+
+export class SolarSystemScene {
+  constructor(containerEl, onSelectPlanetCallback) {
+    this.container = containerEl;
+    this.onSelectPlanet = onSelectPlanetCallback;
+    this.meshFactory = new PlanetMeshFactory();
+
+    this.scene = null;
+    this.camera = null;
+    this.renderer = null;
+    this.controls = null;
+
+    this.sun = null;
+    this.planetObjects = []; // { data, group, bodyMesh, cloudsMesh, ringsMesh, orbitDistance, angle, speed, labelEl }
+    this.orbitLines = [];
+
+    this.isPlaying = true;
+    this.speedMultiplier = 1;
+    this.selectedPlanetId = null;
+    this.isCloseUpMode = false;
+
+    // Smooth camera transition state
+    this.cameraTargetPos = new THREE.Vector3(0, 75, 120);
+    this.controlsTargetPos = new THREE.Vector3(0, 0, 0);
+    this.isTransitioning = false;
+
+    this.raycaster = new THREE.Raycaster();
+    this.mouse = new THREE.Vector2();
+
+    this.animationFrameId = null;
+    this.clock = new THREE.Clock();
+
+    this.init();
+  }
+
+  init() {
+    const width = this.container.clientWidth || window.innerWidth;
+    const height = this.container.clientHeight || window.innerHeight;
+
+    // 1. Scene
+    this.scene = new THREE.Scene();
+    this.scene.background = new THREE.Color(0x060814);
+
+    // 2. Camera
+    this.camera = new THREE.PerspectiveCamera(45, width / height, 0.5, 1000);
+    this.camera.position.set(0, 75, 120);
+
+    // 3. Renderer
+    this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: 'high-performance' });
+    this.renderer.setSize(width, height);
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    this.renderer.toneMappingExposure = 1.1;
+    this.container.appendChild(this.renderer.domElement);
+
+    // 4. Controls
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.controls.enableDamping = true;
+    this.controls.dampingFactor = 0.05;
+    this.controls.maxDistance = 400;
+    this.controls.minDistance = 10;
+    this.controls.target.set(0, 0, 0);
+    this.controls.rotateSpeed = 0.8;
+    this.controls.zoomSpeed = 1.0;
+    this.controls.panSpeed = 0.8;
+    this.controls.enablePan = true;
+    this.controls.touches = { ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_PAN };
+
+    // 5. Pencahayaan
+    // Ambient light redup di angkasa agar sisi gelap planet tetap sedikit terlihat
+    const ambientLight = new THREE.AmbientLight(0x223355, 0.45);
+    this.scene.add(ambientLight);
+
+    // 6. Starfield
+    const starfield = this.meshFactory.createStarfield(3000, 380);
+    this.scene.add(starfield);
+
+    // 7. Matahari
+    this.sun = this.meshFactory.createSun(SUN_DATA);
+    this.scene.add(this.sun.group);
+
+    // 8. Buat Delapan Planet & Orbitnya
+    this.buildPlanets();
+
+    // 9. Event Listeners
+    this.bindEvents();
+
+    // 11. Mulai Render Loop
+    this.animate = this.animate.bind(this);
+    this.animate();
+  }
+
+  buildPlanets() {
+    const labelsContainer = document.getElementById('solar-system-labels') || this.createLabelsOverlay();
+
+    PLANETS_DATA.forEach((planetData, index) => {
+      // 1. Garis orbit
+      const orbitLine = this.meshFactory.createOrbitLine(planetData.orbitDistanceVisual);
+      this.scene.add(orbitLine);
+      this.orbitLines.push(orbitLine);
+
+      // 2. Mesh planet
+      const meshObj = this.meshFactory.createPlanet(planetData);
+      
+      // Sudut awal menyebar acak agar tidak sejajar di satu garis lurus
+      const startAngle = (index / PLANETS_DATA.length) * Math.PI * 2 + index * 0.4;
+      meshObj.group.position.x = Math.cos(startAngle) * planetData.orbitDistanceVisual;
+      meshObj.group.position.z = Math.sin(startAngle) * planetData.orbitDistanceVisual;
+
+      this.scene.add(meshObj.group);
+
+      // 3. Label HTML interaktif untuk PID 75" dan desktop
+      const labelEl = document.createElement('button');
+      labelEl.className = 'planet-3d-label';
+      labelEl.textContent = planetData.name;
+      labelEl.setAttribute('aria-label', `Pilih planet ${planetData.name}`);
+      labelEl.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.selectPlanet(planetData.id);
+      });
+      labelsContainer.appendChild(labelEl);
+
+      this.planetObjects.push({
+        data: planetData,
+        group: meshObj.group,
+        bodyMesh: meshObj.bodyMesh,
+        cloudsMesh: meshObj.cloudsMesh,
+        ringsMesh: meshObj.ringsMesh,
+        orbitDistance: planetData.orbitDistanceVisual,
+        angle: startAngle,
+        speed: planetData.orbitSpeedVisual,
+        rotSpeed: planetData.rotationSpeedVisual,
+        labelEl
+      });
+    });
+  }
+
+  createLabelsOverlay() {
+    let el = document.getElementById('solar-system-labels');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'solar-system-labels';
+      el.className = 'solar-system-labels-overlay';
+      this.container.appendChild(el);
+    }
+    return el;
+  }
+
+  bindEvents() {
+    this.onResize = this.onResize.bind(this);
+    window.addEventListener('resize', this.onResize);
+
+    // Membedakan drag memutar kamera vs tap/klik memilih planet
+    this.pointerStartPos = { x: 0, y: 0 };
+    this.onPointerDown = this.onPointerDown.bind(this);
+    this.onPointerUp = this.onPointerUp.bind(this);
+    this.renderer.domElement.addEventListener('pointerdown', this.onPointerDown);
+    this.renderer.domElement.addEventListener('pointerup', this.onPointerUp);
+  }
+
+  onResize() {
+    if (!this.container || !this.renderer || !this.camera) return;
+    const width = this.container.clientWidth;
+    const height = this.container.clientHeight;
+    this.camera.aspect = width / height;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(width, height);
+  }
+
+  onPointerDown(event) {
+    this.pointerStartPos = { x: event.clientX, y: event.clientY };
+  }
+
+  onPointerUp(event) {
+    // Jika pergerakan lebih dari 8 piksel, berarti pengguna sedang melakukan drag untuk memutar view!
+    const dx = event.clientX - this.pointerStartPos.x;
+    const dy = event.clientY - this.pointerStartPos.y;
+    if (Math.hypot(dx, dy) > 8) {
+      return; // Biarkan OrbitControls memutar view 3D tanpa memicu seleksi
+    }
+
+    const rect = this.renderer.domElement.getBoundingClientRect();
+    this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+    this.raycaster.setFromCamera(this.mouse, this.camera);
+
+    const interactiveMeshes = [];
+    this.planetObjects.forEach(p => {
+      interactiveMeshes.push(p.bodyMesh);
+    });
+
+    const intersects = this.raycaster.intersectObjects(interactiveMeshes, true);
+    if (intersects.length > 0) {
+      // Cari planet yang diklik
+      let hit = intersects[0].object;
+      while (hit && (!hit.parent || !hit.name.includes('-body'))) {
+        if (hit.parent) hit = hit.parent;
+        else break;
+      }
+
+      const foundPlanet = this.planetObjects.find(p => p.bodyMesh === hit || p.group.children.includes(hit));
+      if (foundPlanet) {
+        this.selectPlanet(foundPlanet.data.id);
+      }
+    }
+  }
+
+  selectPlanet(planetId) {
+    const planetObj = this.planetObjects.find(p => p.data.id === planetId);
+    if (!planetObj) return;
+
+    this.selectedPlanetId = planetId;
+    this.isCloseUpMode = true;
+
+    // Batasi jarak zoom orbit kamera untuk kenyamanan memutar planet yang dipilih
+    const radius = planetObj.data.radiusVisual;
+    this.controls.minDistance = Math.max(2.5, radius * 1.5);
+    this.controls.maxDistance = radius * 14 + 30;
+
+    // Posisikan kamera mendekati planet
+    const pPos = planetObj.group.position;
+    const offsetDistance = radius * 3.6 + 4.0;
+
+    this.cameraTargetPos.set(
+      pPos.x + offsetDistance * 0.7,
+      pPos.y + offsetDistance * 0.4,
+      pPos.z + offsetDistance * 0.7
+    );
+    this.controlsTargetPos.copy(pPos);
+    this.isTransitioning = true;
+
+    if (this.onSelectPlanet) {
+      this.onSelectPlanet(planetObj.data);
+    }
+  }
+
+  resetToOverview() {
+    this.selectedPlanetId = null;
+    this.isCloseUpMode = false;
+
+    // Kembalikan batas jarak kamera ke mode tata surya lengkap
+    this.controls.minDistance = 10;
+    this.controls.maxDistance = 400;
+
+    this.cameraTargetPos.set(0, 75, 120);
+    this.controlsTargetPos.set(0, 0, 0);
+    this.isTransitioning = true;
+  }
+
+  zoomIn() {
+    const dir = new THREE.Vector3().subVectors(this.controls.target, this.camera.position).normalize();
+    this.camera.position.addScaledVector(dir, 10);
+    this.controls.update();
+  }
+
+  zoomOut() {
+    const dir = new THREE.Vector3().subVectors(this.controls.target, this.camera.position).normalize();
+    this.camera.position.addScaledVector(dir, -10);
+    this.controls.update();
+  }
+
+  setPlaying(playing) {
+    this.isPlaying = playing;
+  }
+
+  setSpeed(speed) {
+    this.speedMultiplier = speed;
+  }
+
+  animate() {
+    this.animationFrameId = requestAnimationFrame(this.animate);
+
+    const rawDelta = this.clock.getDelta();
+    const delta = Math.min(rawDelta, 0.1);
+
+    // 1. Rotasi matahari & efek pijar
+    if (this.sun) {
+      this.sun.coreMesh.rotation.y += 0.04 * delta * (this.isPlaying ? this.speedMultiplier : 0.2);
+    }
+
+    // 2. Animasi Planet (Revolusi & Rotasi)
+    this.planetObjects.forEach(p => {
+      if (this.isPlaying) {
+        const prevX = p.group.position.x;
+        const prevZ = p.group.position.z;
+
+        // Revolusi mengelilingi matahari
+        p.angle += p.speed * 0.2 * this.speedMultiplier * delta;
+        p.group.position.x = Math.cos(p.angle) * p.orbitDistance;
+        p.group.position.z = Math.sin(p.angle) * p.orbitDistance;
+
+        // Jika planet ini sedang dipilih dalam mode dekat, geser target dan kamera bersama pergerakan revolusi planet
+        // sehingga rotasi manual kamera oleh pengguna dengan mouse/sentuhan tetap terjaga sempurna!
+        if (this.selectedPlanetId === p.data.id && this.isCloseUpMode && !this.isTransitioning) {
+          const moveX = p.group.position.x - prevX;
+          const moveZ = p.group.position.z - prevZ;
+          this.camera.position.x += moveX;
+          this.camera.position.z += moveZ;
+          this.controls.target.x += moveX;
+          this.controls.target.z += moveZ;
+        }
+      }
+
+      // Rotasi pada poros berbasis delta-time (independen dari refresh rate layar 60Hz/144Hz/200Hz)
+      const rotFactor = 8.0 * delta * (this.isPlaying ? this.speedMultiplier : 0.3);
+      p.bodyMesh.rotation.y += p.rotSpeed * rotFactor;
+
+      // Awan bumi
+      if (p.cloudsMesh) {
+        p.cloudsMesh.rotation.y += p.rotSpeed * rotFactor * 1.25;
+      }
+
+      // Update posisi label HTML pada layar 2D
+      this.updatePlanetLabelPosition(p);
+    });
+
+    // 3. Transisi kamera yang mulus (smooth slerp/lerp)
+    if (this.isTransitioning) {
+      this.camera.position.lerp(this.cameraTargetPos, 0.06);
+      this.controls.target.lerp(this.controlsTargetPos, 0.06);
+
+      if (this.camera.position.distanceTo(this.cameraTargetPos) < 0.5) {
+        this.camera.position.copy(this.cameraTargetPos);
+        this.controls.target.copy(this.controlsTargetPos);
+        this.isTransitioning = false;
+      }
+    }
+
+    this.controls.update();
+    this.renderer.render(this.scene, this.camera);
+  }
+
+  updatePlanetLabelPosition(planetObj) {
+    if (!planetObj.labelEl || !this.camera) return;
+
+    // Jika sedang mode dekat planet lain, sembunyikan label kecuali planet terpilih
+    if (this.isCloseUpMode && this.selectedPlanetId !== planetObj.data.id) {
+      planetObj.labelEl.style.display = 'none';
+      return;
+    }
+
+    const pos = new THREE.Vector3();
+    planetObj.group.getWorldPosition(pos);
+    pos.y += planetObj.data.radiusVisual + 1.2; // Tampilkan sedikit di atas planet
+
+    // Proyeksikan koordinat 3D ke 2D screen coordinate
+    pos.project(this.camera);
+
+    // Cek apakah di belakang kamera
+    if (pos.z > 1) {
+      planetObj.labelEl.style.display = 'none';
+      return;
+    }
+
+    const width = this.container.clientWidth;
+    const height = this.container.clientHeight;
+
+    const x = (pos.x * 0.5 + 0.5) * width;
+    const y = (-pos.y * 0.5 + 0.5) * height;
+
+    planetObj.labelEl.style.display = 'block';
+    planetObj.labelEl.style.transform = `translate(-50%, -100%) translate(${x}px, ${y}px)`;
+  }
+
+  destroy() {
+    if (this.animationFrameId) {
+      cancelAnimationFrame(this.animationFrameId);
+    }
+    window.removeEventListener('resize', this.onResize);
+    if (this.renderer && this.renderer.domElement) {
+      this.renderer.domElement.removeEventListener('pointerdown', this.onPointerDown);
+      this.renderer.domElement.removeEventListener('pointerup', this.onPointerUp);
+      this.container.removeChild(this.renderer.domElement);
+      this.renderer.dispose();
+    }
+  }
+}
+

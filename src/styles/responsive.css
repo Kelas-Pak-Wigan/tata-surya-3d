@@ -1,0 +1,196 @@
+/* ==========================================================================
+   TATA SURYA 3D - GAME EDUKASI KELAS 6 SD
+   Responsive Styling: Optimasi PID 75 Inci, Layar Sentuh & Laptop
+   ========================================================================== */
+
+/* 1. PID 75 Inci & Layar Sentuh Ultra-Besar (Resolusi 4K / TV Besar) */
+@media (min-width: 1921px) {
+  html, body {
+    font-size: 22px; /* Skala teks diperbesar agar terbaca dari bangku belakang kelas */
+  }
+
+  .main-title {
+    font-size: 68px;
+  }
+
+  .sub-title {
+    font-size: 40px;
+  }
+
+  .hero-desc {
+    font-size: 26px;
+    max-width: 1100px;
+  }
+
+  .btn {
+    min-height: 68px;
+    font-size: 22px;
+    padding: 18px 34px;
+  }
+
+  .btn-large {
+    min-height: 82px;
+    font-size: 28px;
+    padding: 24px 50px;
+  }
+
+  .earth-info-panel,
+  .planet-profile-drawer {
+    width: 650px;
+  }
+
+  .quiz-form-pane {
+    width: 740px;
+  }
+
+  .ctrl-btn {
+    min-width: 68px;
+    min-height: 68px;
+  }
+
+  .ctrl-icon {
+    font-size: 26px;
+  }
+
+  .ctrl-label {
+    font-size: 15px;
+  }
+
+  .option-btn {
+    min-height: 68px;
+    font-size: 21px;
+  }
+}
+
+/* 2. Standar Laptop & Desktop Landscape (1280px - 1600px) */
+@media (max-width: 1440px) {
+  .main-title {
+    font-size: 44px;
+  }
+
+  .sub-title {
+    font-size: 28px;
+  }
+
+  .hero-desc {
+    font-size: 19px;
+  }
+
+  .home-menu-grid {
+    gap: 20px;
+  }
+
+  .earth-info-panel {
+    width: 460px;
+  }
+
+  .planet-profile-drawer {
+    width: 480px;
+  }
+
+  .quiz-form-pane {
+    width: 540px;
+  }
+
+  .quiz-planets-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+}
+
+/* 3. Laptop Kecil / Tablet Layar Lebar (1024px - 1280px) */
+@media (max-width: 1200px) {
+  .main-title {
+    font-size: 38px;
+  }
+
+  .sub-title {
+    font-size: 24px;
+  }
+
+  .home-menu-grid {
+    grid-template-columns: 1fr;
+    max-width: 680px;
+  }
+
+  .menu-card {
+    padding: 24px;
+  }
+
+  .card-icon-wrap {
+    width: 60px;
+    height: 60px;
+    font-size: 32px;
+  }
+
+  .quiz-planets-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .screen-quiz-interactive {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .quiz-3d-pane {
+    height: 380px;
+    flex: none;
+  }
+
+  .quiz-form-pane {
+    width: 100%;
+    height: auto;
+    box-shadow: none;
+    border-left: none;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .screen-earth {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .earth-info-panel {
+    width: 100%;
+    height: auto;
+    box-shadow: none;
+    border-left: none;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .planet-profile-drawer {
+    width: 100%;
+  }
+}
+
+/* 4. Sentuhan Responsif (Touch Support) */
+@media (pointer: coarse) {
+  /* Hilangkan efek hover yang dapat menggantung di layar sentuh */
+  .menu-card:hover {
+    transform: none;
+  }
+  
+  .btn:active, .ctrl-btn:active, .option-btn:active {
+    transform: scale(0.95);
+  }
+
+  .planet-3d-label {
+    padding: 8px 16px;
+    font-size: 16px;
+  }
+}
+
+/* 5. Aksesibilitas: Preferensi Pengurangan Gerakan */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .btn-pulse {
+    animation: none;
+  }
+}
+
