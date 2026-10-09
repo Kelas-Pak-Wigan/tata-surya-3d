@@ -1,8 +1,12 @@
 /**
- * Bank Soal Kuis Tata Surya Kelas 6 SD
+ * Bank Soal Kuis Tata Surya Kelas 6 SD (Revamped)
  * 8 Planet x 4 Kategori Wajib = 32 Soal Inti
- * Kategori: rotation, revolution, composition, funFact
- * Struktur: id, planetId, category, question, options, correctOptionId, explanation, sourceNote
+ * 
+ * Standar Soal:
+ * Soal 1 (Rotasi): Bagaimana planet berotasi dan berapa lama waktu rotasinya.
+ * Soal 2 (Revolusi): Bagaimana planet berevolusi mengelilingi Matahari dan berapa lama waktu revolusinya.
+ * Soal 3 (Komposisi): Struktur interior dan komposisi zat penyusun utama planet.
+ * Soal 4 (Fakta Unik): Ciri khas unik dan fenomena menarik dari planet tersebut.
  */
 
 export const QUIZ_QUESTIONS = {
@@ -12,15 +16,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'mercury',
       category: 'rotation',
       categoryName: 'Rotasi Planet',
-      question: 'Berapa lama perkiraan waktu yang dibutuhkan Merkurius untuk melakukan satu kali putaran pada porosnya (rotasi)?',
+      question: 'Bagaimanakah karakteristik rotasi planet Merkurius pada porosnya dan berapa lama waktu yang diperlukannya?',
       options: [
-        { id: 'opt-a', text: 'Sekitar 24 jam' },
-        { id: 'opt-b', text: 'Sekitar 58,6 hari Bumi' },
-        { id: 'opt-c', text: 'Sekitar 365 hari Bumi' },
-        { id: 'opt-d', text: 'Sekitar 10 jam' }
+        { id: 'opt-a', text: 'Berotasi sangat cepat dengan poros miring menyamping, membutuhkan waktu sekitar 10 jam' },
+        { id: 'opt-b', text: 'Berotasi sangat lambat pada poros yang hampir tegak lurus, membutuhkan waktu sekitar 58,6 hari Bumi' },
+        { id: 'opt-c', text: 'Berotasi terbalik searah jarum jam dengan kecepatan tinggi, membutuhkan waktu sekitar 24 jam' },
+        { id: 'opt-d', text: 'Berotasi bolak-balik berlawanan arah setiap minggu, membutuhkan waktu sekitar 365 hari Bumi' }
       ],
       correctOptionId: 'opt-b',
-      explanation: 'Merkurius berotasi dengan sangat lambat. Satu kali putaran penuh pada porosnya membutuhkan waktu sekitar 58,6 hari Bumi.',
+      explanation: 'Merkurius berotasi sangat lambat pada poros yang hampir tegak lurus sempurna (kemiringan sumbu hanya sekitar 0,03 derajat), menyelesaikan satu kali putaran dalam waktu sekitar 58,6 hari Bumi.',
       sourceNote: 'NASA Mercury Fact Sheet'
     },
     {
@@ -28,15 +32,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'mercury',
       category: 'revolution',
       categoryName: 'Revolusi Planet',
-      question: 'Berapa lama periode revolusi Merkurius untuk mengitari Matahari satu putaran penuh?',
+      question: 'Bagaimanakah karakteristik revolusi Merkurius mengelilingi Matahari dan berapa lama periode orbitnya?',
       options: [
-        { id: 'opt-a', text: 'Sekitar 88 hari Bumi' },
-        { id: 'opt-b', text: 'Sekitar 225 hari Bumi' },
-        { id: 'opt-c', text: 'Sekitar 365 hari Bumi' },
-        { id: 'opt-d', text: 'Sekitar 687 hari Bumi' }
+        { id: 'opt-a', text: 'Mengorbit paling cepat di Tata Surya karena posisinya paling dekat dengan Matahari, membutuhkan waktu sekitar 88 hari Bumi' },
+        { id: 'opt-b', text: 'Mengorbit lambat di luar sabuk asteroid, membutuhkan waktu sekitar 225 hari Bumi' },
+        { id: 'opt-c', text: 'Mengorbit sejajar bersama Bumi di lintasan yang sama, membutuhkan waktu sekitar 365 hari Bumi' },
+        { id: 'opt-d', text: 'Mengorbit melingkar sempurna paling jauh dari Matahari, membutuhkan waktu sekitar 687 hari Bumi' }
       ],
       correctOptionId: 'opt-a',
-      explanation: 'Karena posisinya yang paling dekat dengan Matahari, Merkurius mengorbit paling cepat, yaitu hanya membutuhkan waktu sekitar 88 hari Bumi.',
+      explanation: 'Karena posisinya paling dekat dengan Matahari, gaya gravitasi kuat Matahari membuat Merkurius melesat paling cepat di orbitnya, menyelesaikan satu kali revolusi hanya dalam waktu sekitar 88 hari Bumi.',
       sourceNote: 'NASA Mercury Fact Sheet'
     },
     {
@@ -44,15 +48,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'mercury',
       category: 'composition',
       categoryName: 'Komposisi & Zat Penyusun',
-      question: 'Bagaimanakah karakteristik komposisi utama dari struktur benda langit Merkurius?',
+      question: 'Bagaimanakah komposisi utama dan susunan zat pembentuk planet Merkurius?',
       options: [
-        { id: 'opt-a', text: 'Berupa bola gas hidrogen dan helium tanpa permukaan padat' },
-        { id: 'opt-b', text: 'Planet berbatu dengan inti logam besi raksasa dan mantel silikat tipis' },
-        { id: 'opt-c', text: 'Tersusun seluruhnya dari gumpalan es padat dan amonia beku' },
-        { id: 'opt-d', text: 'Permukaannya berupa lautan air tawar yang sangat dalam' }
+        { id: 'opt-a', text: 'Berupa bola gas hidrogen cair tanpa kerak batuan padat' },
+        { id: 'opt-b', text: 'Planet berbatu padat dengan inti logam besi raksasa (~75% jari-jari) serta mantel dan kerak batuan silikat' },
+        { id: 'opt-c', text: 'Gumpalan es amonia dan metana beku yang menyelimuti inti belerang' },
+        { id: 'opt-d', text: 'Lautan lava cair aktif di seluruh permukaannya tanpa ada batuan padat' }
       ],
       correctOptionId: 'opt-b',
-      explanation: 'Merkurius adalah planet terestrial (berbatu) padat dengan inti besi raksasa yang menyumbang sekitar 75% dari jari-jari planetnya.',
+      explanation: 'Merkurius adalah planet terestrial berbatu padat dengan inti logam besi raksasa yang menyumbang sekitar 75% dari jari-jari planetnya, diselimuti oleh mantel tipis dan kerak batuan silikat.',
       sourceNote: 'NASA Solar System Exploration'
     },
     {
@@ -60,15 +64,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'mercury',
       category: 'funFact',
       categoryName: 'Fakta Unik',
-      question: 'Mengapa Merkurius mengalami perbedaan suhu yang sangat ekstrem antara siang (430°C) dan malam (-180°C)?',
+      question: 'Mengapa Merkurius mengalami perbedaan suhu permukaan yang sangat ekstrem antara siang (430°C) dan malam (-180°C)?',
       options: [
-        { id: 'opt-a', text: 'Karena tertutup cincin es yang sangat tebal' },
-        { id: 'opt-b', text: 'Karena hampir tidak memiliki atmosfer untuk menahan dan menyebarkan panas' },
-        { id: 'opt-c', text: 'Karena berotasi terbalik berlawanan arah jarum jam' },
-        { id: 'opt-d', text: 'Karena terletak paling jauh dari garis edar galaksi' }
+        { id: 'opt-a', text: 'Karena Merkurius dikelilingi oleh ribuan cincin es tebal' },
+        { id: 'opt-b', text: 'Karena Merkurius hampir tidak memiliki lapisan atmosfer untuk menahan dan meratakan panas Matahari' },
+        { id: 'opt-c', text: 'Karena permukaan Merkurius selalu tertutup kabut asam belerang pekat' },
+        { id: 'opt-d', text: 'Karena Merkurius berputar terbalik menjauhi pusat galaksi' }
       ],
       correctOptionId: 'opt-b',
-      explanation: 'Merkurius hampir tidak memiliki lapisan atmosfer (hanya eksosfer yang sangat tipis), sehingga panas terik Matahari di siang hari langsung hilang seketika saat malam tiba.',
+      explanation: 'Merkurius hampir tidak memiliki atmosfer (hanya eksosfer yang sangat tipis), sehingga panas terik Matahari di siang hari langsung hilang seketika ke ruang angkasa saat malam tiba.',
       sourceNote: 'NASA Mercury Fact Sheet'
     }
   ],
@@ -79,15 +83,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'venus',
       category: 'rotation',
       categoryName: 'Rotasi Planet',
-      question: 'Apakah keunikan gerak rotasi planet Venus jika dibandingkan dengan sebagian besar planet di Tata Surya?',
+      question: 'Bagaimanakah karakteristik gerak rotasi planet Venus dan berapa lama waktu yang dibutuhkannya untuk satu kali putaran?',
       options: [
-        { id: 'opt-a', text: 'Berputar sangat cepat dalam waktu 2 jam saja' },
-        { id: 'opt-b', text: 'Berputar berlawanan arah (retrograde / searah jarum jam) sehingga Matahari terbit dari barat' },
-        { id: 'opt-c', text: 'Sama sekali tidak berputar pada porosnya' },
-        { id: 'opt-d', text: 'Berputar melompat-lompat secara vertikal' }
+        { id: 'opt-a', text: 'Berotasi searah jarum jam (retrograde) dari timur ke barat secara sangat lambat, membutuhkan waktu sekitar 243 hari Bumi' },
+        { id: 'opt-b', text: 'Berotasi dari barat ke timur sangat cepat, membutuhkan waktu sekitar 10 jam' },
+        { id: 'opt-c', text: 'Berotasi melompat secara vertikal dari utara ke selatan, membutuhkan waktu sekitar 30 hari Bumi' },
+        { id: 'opt-d', text: 'Berotasi normal dari barat ke timur persis seperti Bumi, membutuhkan waktu sekitar 24 jam' }
       ],
-      correctOptionId: 'opt-b',
-      explanation: 'Venus memiliki rotasi retrograde (berputar searah jarum jam), berlawanan arah dengan arah rotasi Bumi dan mayoritas planet lainnya. Akibatnya, di Venus Matahari tampak terbit dari barat.',
+      correctOptionId: 'opt-a',
+      explanation: 'Venus berotasi berlawanan arah (retrograde / searah jarum jam) dari timur ke barat dengan sangat lambat, memerlukan waktu sekitar 243 hari Bumi. Akibatnya, di Venus Matahari tampak terbit dari barat.',
       sourceNote: 'NASA Venus Fact Sheet'
     },
     {
@@ -95,15 +99,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'venus',
       category: 'revolution',
       categoryName: 'Revolusi Planet',
-      question: 'Berapa lama waktu yang dibutuhkan Venus untuk satu kali mengelilingi Matahari (revolusi)?',
+      question: 'Bagaimanakah gerak revolusi Venus mengelilingi Matahari dan berapa lama waktu yang diperlukannya untuk satu tahun orbit?',
       options: [
-        { id: 'opt-a', text: 'Sekitar 88 hari Bumi' },
-        { id: 'opt-b', text: 'Sekitar 225 hari Bumi' },
-        { id: 'opt-c', text: 'Sekitar 365,25 hari Bumi' },
-        { id: 'opt-d', text: 'Sekitar 12 tahun Bumi' }
+        { id: 'opt-a', text: 'Mengorbit Matahari pada lintasan elips paling luar, membutuhkan waktu sekitar 12 tahun Bumi' },
+        { id: 'opt-b', text: 'Mengorbit di antara Merkurius dan Bumi dalam lintasan hampir lingkaran sempurna, membutuhkan waktu sekitar 225 hari Bumi' },
+        { id: 'opt-c', text: 'Mengorbit zig-zag melintasi orbit Mars, membutuhkan waktu sekitar 365,25 hari Bumi' },
+        { id: 'opt-d', text: 'Mengorbit sangat lambat di tepi Tata Surya, membutuhkan waktu sekitar 88 hari Bumi' }
       ],
       correctOptionId: 'opt-b',
-      explanation: 'Venus mengelilingi Matahari dalam waktu sekitar 225 hari Bumi. Menariknya, waktu revolusi ini lebih cepat daripada waktu satu kali rotasinya (243 hari Bumi)!',
+      explanation: 'Venus mengorbit Matahari dalam lintasan yang hampir melingkar sempurna pada jarak orbit kedua dari Matahari, memerlukan waktu sekitar 225 hari Bumi (lebih singkat daripada satu hari rotasinya yang 243 hari).',
       sourceNote: 'NASA Venus Fact Sheet'
     },
     {
@@ -111,15 +115,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'venus',
       category: 'composition',
       categoryName: 'Komposisi & Zat Penyusun',
-      question: 'Zat gas apakah yang mendominasi atmosfer planet Venus sehingga memicu efek rumah kaca yang luar biasa hebat?',
+      question: 'Zat gas apakah yang mendominasi atmosfer tebal planet Venus sehingga memicu tekanan dan suhu permukaan yang luar biasa tinggi?',
       options: [
-        { id: 'opt-a', text: 'Gas nitrogen dan oksigen' },
-        { id: 'opt-b', text: 'Gas karbon dioksida (CO₂) tebal (>96%)' },
-        { id: 'opt-c', text: 'Gas hidrogen murni' },
-        { id: 'opt-d', text: 'Uap air dan helium' }
+        { id: 'opt-a', text: 'Gas nitrogen dan oksigen murni seperti di Bumi' },
+        { id: 'opt-b', text: 'Gas karbon dioksida (>96%) tebal ditambah awan asam sulfat pekat' },
+        { id: 'opt-c', text: 'Gas hidrogen dan helium ringan tanpa awan' },
+        { id: 'opt-d', text: 'Uap air segar dan kristal es metana' }
       ],
       correctOptionId: 'opt-b',
-      explanation: 'Atmosfer Venus sangat tebal dan berat, didominasi lebih dari 96% gas karbon dioksida (CO₂) ditambah awan pekat asam sulfat yang memerangkap panas Matahari secara ekstrem.',
+      explanation: 'Atmosfer Venus sangat tebal dan berat, didominasi lebih dari 96% gas karbon dioksida (CO2) serta selimut awan pekat asam sulfat yang memerangkap panas Matahari secara dahsyat.',
       sourceNote: 'NASA Venus Fact Sheet'
     },
     {
@@ -127,15 +131,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'venus',
       category: 'funFact',
       categoryName: 'Fakta Unik',
-      question: 'Mengapa planet Venus dinobatkan sebagai planet terpanas di Tata Surya dengan suhu mencapai ~465°C?',
+      question: 'Mengapa planet Venus dijuluki sebagai planet terpanas di seluruh Tata Surya (~465°C) meskipun posisinya nomor dua dari Matahari?',
       options: [
-        { id: 'opt-a', text: 'Karena posisinya terletak paling dekat dengan inti Matahari' },
-        { id: 'opt-b', text: 'Karena atmosfer tebal karbon dioksidanya menghasilkan efek rumah kaca ekstrem' },
-        { id: 'opt-c', text: 'Karena permukaannya selalu terbakar api batubara' },
-        { id: 'opt-d', text: 'Karena ditabrak ratusan komet panas setiap hari' }
+        { id: 'opt-a', text: 'Karena permukaannya selalu terbakar oleh kobaran api gas alam' },
+        { id: 'opt-b', text: 'Karena efek rumah kaca ekstrem dari atmosfer karbon dioksida tebalnya mengurung panas Matahari tanpa bisa keluar' },
+        { id: 'opt-c', text: 'Karena jaraknya lebih dekat ke inti galaksi dibandingkan planet lain' },
+        { id: 'opt-d', text: 'Karena memiliki seratus satelit alami yang memantulkan sinar panas' }
       ],
       correctOptionId: 'opt-b',
-      explanation: 'Meskipun posisinya nomor dua setelah Merkurius, efek rumah kaca ekstrem dari selimut karbon dioksida tebal menjadikan Venus planet paling panas di Tata Surya.',
+      explanation: 'Efek rumah kaca tak terkendali dari atmosfer karbon dioksida super tebal membuat suhu permukaan Venus mencapai sekitar 465°C (cukup untuk melelehkan timah), menjadikannya lebih panas daripada Merkurius.',
       sourceNote: 'NASA Solar System Exploration'
     }
   ],
@@ -146,15 +150,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'earth',
       category: 'rotation',
       categoryName: 'Rotasi Planet',
-      question: 'Berapa lama waktu rotasi Bumi pada porosnya dan apakah akibat langsung dari perputaran tersebut bagi kita?',
+      question: 'Bagaimanakah karakteristik rotasi Bumi pada porosnya dan berapa lama waktu yang dibutuhkannya?',
       options: [
-        { id: 'opt-a', text: 'Sekitar 365 hari, mengakibatkan pergantian musim' },
-        { id: 'opt-b', text: 'Sekitar 24 jam, mengakibatkan terjadinya siang dan malam' },
-        { id: 'opt-c', text: 'Sekitar 30 hari, mengakibatkan pasang surut air laut' },
-        { id: 'opt-d', text: 'Sekitar 12 jam, mengakibatkan gerhana matahari total' }
+        { id: 'opt-a', text: 'Berputar dari barat ke timur dengan poros miring sekitar 23,5 derajat, membutuhkan waktu sekitar 24 jam' },
+        { id: 'opt-b', text: 'Berputar dari timur ke barat dengan poros tegak lurus sempurna, membutuhkan waktu sekitar 365 hari' },
+        { id: 'opt-c', text: 'Berputar secara retrograde menyamping di atas es, membutuhkan waktu sekitar 12 jam' },
+        { id: 'opt-d', text: 'Berputar bolak-balik setiap minggu, membutuhkan waktu sekitar 30 hari' }
       ],
-      correctOptionId: 'opt-b',
-      explanation: 'Bumi berputar pada porosnya selama sekitar 24 jam (satu hari matahari), yang menyebabkan bagian Bumi bergantian menghadap dan membelakangi Matahari (siang dan malam).',
+      correctOptionId: 'opt-a',
+      explanation: 'Bumi berputar dari barat ke timur dengan kemiringan poros rotasi sekitar 23,5 derajat, memerlukan waktu sekitar 24 jam (hari matahari) yang mengakibatkan pergantian siang dan malam serta gerak semu harian benda langit.',
       sourceNote: 'NASA Earth Fact Sheet'
     },
     {
@@ -162,15 +166,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'earth',
       category: 'revolution',
       categoryName: 'Revolusi Planet',
-      question: 'Berapa lama periode revolusi Bumi dan bagaimana kelebihan seperempat harinya diselaraskan dalam kalender?',
+      question: 'Bagaimanakah gerak revolusi Bumi mengelilingi Matahari dan berapa lama waktu yang diperlukannya dalam satu putaran kalender?',
       options: [
-        { id: 'opt-a', text: 'Sekitar 365,25 hari, diselaraskan dengan tahun kabisat (366 hari) tiap 4 tahun sekali' },
-        { id: 'opt-b', text: 'Tepat 300 hari, diselaraskan dengan mengurangi 1 hari setiap tahun' },
-        { id: 'opt-c', text: 'Sekitar 687 hari, diselaraskan dengan menambah 1 bulan' },
-        { id: 'opt-d', text: 'Tepat 365 hari pas tanpa ada kelebihan seperempat hari' }
+        { id: 'opt-a', text: 'Mengorbit mengelilingi Matahari pada lintasan elips dengan poros miring 23,5°, membutuhkan waktu sekitar 365,25 hari (diselaraskan tahun kabisat)' },
+        { id: 'opt-b', text: 'Mengorbit secara melingkar kaku tanpa kemiringan poros, membutuhkan waktu tepat 300 hari' },
+        { id: 'opt-c', text: 'Mengorbit melingkari Bulan secara berkala, membutuhkan waktu sekitar 687 hari' },
+        { id: 'opt-d', text: 'Mengorbit menjauh dan mendekat drastis setiap bulan, membutuhkan waktu tepat 100 hari' }
       ],
       correctOptionId: 'opt-a',
-      explanation: 'Bumi memerlukan sekitar 365,25 hari untuk mengitari Matahari. Kelebihan 0,25 hari digabungkan setiap 4 tahun menjadi tanggal 29 Februari (tahun kabisat dengan 366 hari).',
+      explanation: 'Bumi mengelilingi Matahari pada lintasan elips dalam waktu sekitar 365,25 hari. Kelebihan 0,25 hari diselaraskan setiap 4 tahun menjadi tahun kabisat (366 hari), dan kemiringan porosnya memicu pergantian musim.',
       sourceNote: 'NASA Earth Fact Sheet'
     },
     {
@@ -178,15 +182,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'earth',
       category: 'composition',
       categoryName: 'Komposisi & Zat Penyusun',
-      question: 'Bagaimanakah susunan lapisan struktur dan zat pembentuk planet Bumi secara umum?',
+      question: 'Bagaimanakah struktur lapisan dan komposisi zat pembentuk planet Bumi dari permukaan hingga ke intinya?',
       options: [
-        { id: 'opt-a', text: 'Seluruhnya terdiri dari gumpalan gas metana beku tanpa batuan' },
-        { id: 'opt-b', text: 'Kerak dan mantel kaya mineral silikat, inti kaya besi dan nikel, serta permukaan kaya air' },
-        { id: 'opt-c', text: 'Tersusun hanya dari logam emas murni dari permukaan sampai inti' },
-        { id: 'opt-d', text: 'Bola es raksasa yang tidak memiliki inti logam' }
+        { id: 'opt-a', text: 'Seluruhnya berupa bola gas hidrogen tanpa adanya lapisan batuan dan logam' },
+        { id: 'opt-b', text: 'Kerak dan mantel tersusun dari batuan silikat, inti luar cair serta inti dalam padat kaya besi-nikel, dengan air cair di permukaannya' },
+        { id: 'opt-c', text: 'Tersusun hanya dari logam emas dan tembaga murni tanpa lapisan tanah' },
+        { id: 'opt-d', text: 'Terdiri dari gumpalan es amonia padat yang menutupi batubara' }
       ],
       correctOptionId: 'opt-b',
-      explanation: 'Bumi tersusun dari kerak dan mantel batuan silikat, inti luar dan dalam yang kaya logam besi dan nikel, serta permukaan yang diselimuti air cair dan atmosfer.',
+      explanation: 'Bumi tersusun dari kerak dan mantel batuan silikat, inti luar cair serta inti dalam padat yang kaya akan besi dan nikel, serta memiliki samudra air cair melimpah (~71%) di permukaannya.',
       sourceNote: 'NASA Earth Observatory'
     },
     {
@@ -194,15 +198,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'earth',
       category: 'funFact',
       categoryName: 'Fakta Unik',
-      question: 'Faktor utama apakah yang menyebabkan terjadinya pergantian musim di berbagai belahan Bumi?',
+      question: 'Apakah peran utama perisai medan magnet (magnetosfer) Bumi bagi kelangsungan hidup di permukaannya?',
       options: [
-        { id: 'opt-a', text: 'Jarak Bumi yang kadang sangat dekat dan kadang sangat jauh dari Matahari' },
-        { id: 'opt-b', text: 'Kemiringan poros rotasi Bumi sekitar 23,5 derajat saat mengelilingi Matahari' },
-        { id: 'opt-c', text: 'Kecepatan putaran Bumi yang melambat saat musim dingin' },
-        { id: 'opt-d', text: 'Besarnya bayangan Bulan yang menutupi Bumi secara bergantian' }
+        { id: 'opt-a', text: 'Membuat gravitasi Bumi menjadi nol saat malam hari' },
+        { id: 'opt-b', text: 'Melindungi atmosfer dan makhluk hidup dari terpaan radiasi partikel mematikan angin matahari (solar wind)' },
+        { id: 'opt-c', text: 'Menarik Bulan agar semakin mendekat dan menempel ke Bumi' },
+        { id: 'opt-d', text: 'Mencegah air laut menguap menjadi awan hujan' }
       ],
       correctOptionId: 'opt-b',
-      explanation: 'Kemiringan poros rotasi Bumi sebesar ~23,5 derajat membuat belahan utara dan selatan menerima sudut datang sinar Matahari yang berbeda saat revolusi, memicu pergantian musim.',
+      explanation: 'Medan magnet Bumi yang dibangkitkan oleh aliran inti besi cairnya bertindak seperti perisai raksasa (magnetosfer) yang menepis radiasi mematikan angin matahari dan sinar kosmis.',
       sourceNote: 'NASA Earth Observatory'
     }
   ],
@@ -213,15 +217,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'mars',
       category: 'rotation',
       categoryName: 'Rotasi Planet',
-      question: 'Berapa lama waktu rotasi planet Mars pada porosnya dalam satu hari (satu sol)?',
+      question: 'Bagaimanakah karakteristik rotasi planet Mars pada porosnya dan berapa lama waktu satu hari di Mars?',
       options: [
-        { id: 'opt-a', text: 'Sekitar 9 jam 56 menit' },
-        { id: 'opt-b', text: 'Sekitar 24,6 jam (hampir mirip dengan panjang hari di Bumi)' },
-        { id: 'opt-c', text: 'Sekitar 58 hari Bumi' },
-        { id: 'opt-d', text: 'Sekitar 243 hari Bumi' }
+        { id: 'opt-a', text: 'Berotasi sangat cepat dalam waktu kurang dari 10 jam dengan poros tegak lurus' },
+        { id: 'opt-b', text: 'Berotasi dari barat ke timur dengan kemiringan poros sekitar 25 derajat, membutuhkan waktu sekitar 24,6 jam (hampir mirip hari di Bumi)' },
+        { id: 'opt-c', text: 'Berotasi mundur terbalik (retrograde), membutuhkan waktu sekitar 243 hari Bumi' },
+        { id: 'opt-d', text: 'Berotasi sangat lambat selama 58 hari Bumi tanpa pergantian malam' }
       ],
       correctOptionId: 'opt-b',
-      explanation: 'Mars berotasi pada porosnya dalam waktu sekitar 24,6 jam (24 jam 37 menit), sehingga panjang hari di Mars hampir sama persis dengan di Bumi.',
+      explanation: 'Mars berotasi dari barat ke timur dengan kemiringan poros sekitar 25,2 derajat (sangat mirip kemiringan poros Bumi), memerlukan waktu sekitar 24 jam 37 menit (sekitar 24,6 jam atau 1 sol), sehingga ritme siang-malamnya hampir sama dengan Bumi.',
       sourceNote: 'NASA Mars Fact Sheet'
     },
     {
@@ -229,15 +233,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'mars',
       category: 'revolution',
       categoryName: 'Revolusi Planet',
-      question: 'Berapa lama waktu yang dibutuhkan planet Mars untuk menyelesaikan satu putaran orbit mengelilingi Matahari?',
+      question: 'Bagaimanakah gerak revolusi planet Mars mengelilingi Matahari dan berapa lama periode satu tahun Mars?',
       options: [
-        { id: 'opt-a', text: 'Sekitar 88 hari Bumi' },
-        { id: 'opt-b', text: 'Sekitar 365 hari Bumi' },
-        { id: 'opt-c', text: 'Sekitar 687 hari Bumi (hampir 2 tahun Bumi)' },
-        { id: 'opt-d', text: 'Sekitar 12 tahun Bumi' }
+        { id: 'opt-a', text: 'Mengorbit di lintasan luar Bumi pada jarak rata-rata lebih jauh, membutuhkan waktu sekitar 687 hari Bumi (hampir 2 tahun Bumi)' },
+        { id: 'opt-b', text: 'Mengorbit lebih dekat ke Matahari daripada Bumi, membutuhkan waktu sekitar 88 hari Bumi' },
+        { id: 'opt-c', text: 'Mengorbit sejajar bersama Merkurius, membutuhkan waktu sekitar 225 hari Bumi' },
+        { id: 'opt-d', text: 'Mengorbit sangat lambat di luar sabuk Kuiper, membutuhkan waktu sekitar 12 tahun Bumi' }
       ],
-      correctOptionId: 'opt-c',
-      explanation: 'Mars berada di orbit luar setelah Bumi, sehingga membutuhkan waktu sekitar 687 hari Bumi (kurang lebih 1,88 tahun Bumi) untuk satu kali revolusi.',
+      correctOptionId: 'opt-a',
+      explanation: 'Karena orbit Mars berada di luar orbit Bumi dengan keliling lintasan yang lebih besar, Mars membutuhkan waktu sekitar 687 hari Bumi (kurang lebih 1,88 tahun Bumi) untuk satu kali menyelesaikan revolusinya.',
       sourceNote: 'NASA Mars Fact Sheet'
     },
     {
@@ -245,15 +249,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'mars',
       category: 'composition',
       categoryName: 'Komposisi & Zat Penyusun',
-      question: 'Senyawa apakah yang melimpah di debu permukaan Mars sehingga menyebabkannya tampak berwarna merah kemerahan?',
+      question: 'Kandungan mineral apakah yang melimpah pada debu permukaan Mars sehingga memberinya warna merah menyala yang khas?',
       options: [
-        { id: 'opt-a', text: 'Mineral tembaga hijau' },
+        { id: 'opt-a', text: 'Mineral tembaga hijau beracun' },
         { id: 'opt-b', text: 'Besi teroksidasi atau karat besi (iron oxide)' },
-        { id: 'opt-c', text: 'Garam dapur kristal putih' },
-        { id: 'opt-d', text: 'Endapan minyak bumi mentah' }
+        { id: 'opt-c', text: 'Kristal garam fosfat putih mengilap' },
+        { id: 'opt-d', text: 'Endapan batubara hitam pekat' }
       ],
       correctOptionId: 'opt-b',
-      explanation: 'Permukaan Mars diselimuti debu halus yang kaya senyawa besi teroksidasi (karat), sehingga memantulkan warna jingga kemerahan ke pandangan mata kita.',
+      explanation: 'Permukaan Mars diselimuti debu halus yang kaya senyawa besi teroksidasi (karat), memantulkan warna jingga kemerahan ke pandangan kita sehingga Mars dijuluki sebagai Planet Merah.',
       sourceNote: 'NASA Solar System Exploration'
     },
     {
@@ -261,15 +265,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'mars',
       category: 'funFact',
       categoryName: 'Fakta Unik',
-      question: 'Apakah nama gunung berapi tertinggi dan terbesar di seluruh Tata Surya yang terletak di planet Mars?',
+      question: 'Fitur geologi raksasa apakah yang berada di Mars yang memecahkan rekor sebagai gunung berapi tertinggi di seluruh Tata Surya?',
       options: [
         { id: 'opt-a', text: 'Gunung Everest' },
-        { id: 'opt-b', text: 'Olympus Mons' },
-        { id: 'opt-c', text: 'Mauna Kea' },
-        { id: 'opt-d', text: 'Gunung Krakatau' }
+        { id: 'opt-b', text: 'Olympus Mons (ketinggian sekitar 22 km, tiga kali tinggi Everest)' },
+        { id: 'opt-c', text: 'Valles Marineris' },
+        { id: 'opt-d', text: 'Mauna Kea' }
       ],
       correctOptionId: 'opt-b',
-      explanation: 'Olympus Mons adalah gunung berapi raksasa di Mars yang memiliki ketinggian sekitar 22 km, hampir tiga kali lipat ketinggian Gunung Everest di Bumi!',
+      explanation: 'Olympus Mons di Mars adalah gunung berapi perisai raksasa dengan ketinggian mencapai sekitar 22 km (hampir tiga kali lipat tinggi Gunung Everest di Bumi) dan berdiameter selebar pulau besar.',
       sourceNote: 'NASA Mars Fact Sheet'
     }
   ],
@@ -280,15 +284,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'jupiter',
       category: 'rotation',
       categoryName: 'Rotasi Planet',
-      question: 'Berapa lama waktu rotasi Jupiter pada porosnya dan apa rekornya di antara planet-planet Tata Surya?',
+      question: 'Bagaimanakah karakteristik rotasi planet raksasa Jupiter dan berapa lama waktu yang diperlukannya untuk satu kali putaran?',
       options: [
-        { id: 'opt-a', text: 'Sekitar 24 jam, persis seperti Bumi' },
-        { id: 'opt-b', text: 'Sekitar 9 jam 56 menit, merupakan rotasi tercepat di Tata Surya' },
-        { id: 'opt-c', text: 'Sekitar 30 hari, merupakan rotasi paling santai' },
-        { id: 'opt-d', text: 'Sekitar 84 tahun, bergerak sangat lambat' }
+        { id: 'opt-a', text: 'Berotasi paling kencang di Tata Surya sehingga bentuknya menggembung di khatulistiwa, membutuhkan waktu hanya sekitar 9 jam 56 menit' },
+        { id: 'opt-b', text: 'Berotasi sangat lambat selama 243 hari Bumi karena ukurannya yang amat besar' },
+        { id: 'opt-c', text: 'Berotasi terbalik menyamping 98 derajat, membutuhkan waktu sekitar 84 tahun' },
+        { id: 'opt-d', text: 'Berotasi santai dengan periode yang sama persis dengan Bumi, yaitu 24 jam' }
       ],
-      correctOptionId: 'opt-b',
-      explanation: 'Meskipun merupakan planet terbesar, Jupiter berputar luar biasa kencang pada porosnya, hanya butuh sekitar 9 jam 56 menit untuk satu putaran penuh.',
+      correctOptionId: 'opt-a',
+      explanation: 'Meskipun merupakan planet terbesar, Jupiter berotasi luar biasa kencang (tercepat di antara seluruh planet), hanya memerlukan waktu sekitar 9 jam 56 menit untuk satu putaran penuh pada porosnya.',
       sourceNote: 'NASA Jupiter Fact Sheet'
     },
     {
@@ -296,15 +300,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'jupiter',
       category: 'revolution',
       categoryName: 'Revolusi Planet',
-      question: 'Berapa lama periode revolusi planet Jupiter untuk sekali mengitari Matahari?',
+      question: 'Bagaimanakah gerak revolusi Jupiter mengelilingi Matahari dan berapa lama waktu yang dibutuhkannya untuk satu kali orbit penuh?',
       options: [
-        { id: 'opt-a', text: 'Sekitar 365 hari Bumi' },
-        { id: 'opt-b', text: 'Sekitar 11,86 tahun Bumi' },
-        { id: 'opt-c', text: 'Sekitar 29,4 tahun Bumi' },
-        { id: 'opt-d', text: 'Sekitar 165 tahun Bumi' }
+        { id: 'opt-a', text: 'Mengorbit di luar sabuk asteroid pada lintasan luas, membutuhkan waktu sekitar 11,86 tahun Bumi' },
+        { id: 'opt-b', text: 'Mengorbit di dalam sabuk asteroid dekat Bumi, membutuhkan waktu sekitar 365 hari Bumi' },
+        { id: 'opt-c', text: 'Mengorbit di tepi terluar Tata Surya, membutuhkan waktu sekitar 164,8 tahun Bumi' },
+        { id: 'opt-d', text: 'Mengorbit sangat cepat dekat Matahari, membutuhkan waktu sekitar 687 hari Bumi' }
       ],
-      correctOptionId: 'opt-b',
-      explanation: 'Jupiter membutuhkan waktu sekitar 11,86 tahun Bumi (hampir 12 tahun) untuk menyelesaikan satu putaran orbit penuh mengelilingi Matahari.',
+      correctOptionId: 'opt-a',
+      explanation: 'Jupiter berada di luar sabuk asteroid dengan lintasan orbit yang sangat lebar, sehingga membutuhkan waktu sekitar 11,86 tahun waktu di Bumi untuk satu kali menyelesaikan putaran revolusinya.',
       sourceNote: 'NASA Jupiter Fact Sheet'
     },
     {
@@ -312,15 +316,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'jupiter',
       category: 'composition',
       categoryName: 'Komposisi & Zat Penyusun',
-      question: 'Termasuk dalam kelompok planet apakah Jupiter dan unsur gas apakah yang menyusun sebagian besar tubuhnya?',
+      question: 'Termasuk kelompok planet apakah Jupiter dan unsur-unsur apakah yang menyusun sebagian besar tubuhnya?',
       options: [
-        { id: 'opt-a', text: 'Planet berbatu, didominasi gas oksigen padat' },
-        { id: 'opt-b', text: 'Raksasa gas, terutama tersusun atas hidrogen dan helium' },
-        { id: 'opt-c', text: 'Raksasa es padat dengan lautan metana beku' },
-        { id: 'opt-d', text: 'Planet logam mulia berinti merkuri' }
+        { id: 'opt-a', text: 'Planet terestrial berbatu padat dengan mantel silikat tebal' },
+        { id: 'opt-b', text: 'Raksasa gas (gas giant), sebagian besar tersusun atas hidrogen (~90%) dan helium (~10%) dengan hidrogen logam cair di kedalaman' },
+        { id: 'opt-c', text: 'Raksasa es dengan lautan air tawar padat dari permukaan hingga inti' },
+        { id: 'opt-d', text: 'Bola belerang dan besi padat tanpa lapisan atmosfer' }
       ],
       correctOptionId: 'opt-b',
-      explanation: 'Jupiter adalah raksasa gas (gas giant). Tubuhnya sebagian besar tersusun atas gas hidrogen (~90%) dan helium (~10%), dengan lapisan hidrogen logam di kedalamannya.',
+      explanation: 'Jupiter tergolong raksasa gas tanpa permukaan padat yang pasti; tubuhnya didominasi oleh gas hidrogen dan helium yang berubah menjadi hidrogen logam cair di bawah tekanan luar biasa di kedalamannya.',
       sourceNote: 'NASA Jupiter Fact Sheet'
     },
     {
@@ -328,15 +332,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'jupiter',
       category: 'funFact',
       categoryName: 'Fakta Unik',
-      question: 'Fenomena cuaca antariksa apakah yang dinamakan "Bintik Merah Raksasa" (Great Red Spot) di planet Jupiter?',
+      question: 'Apakah sebenarnya fenomena "Bintik Merah Raksasa" (Great Red Spot) yang tampak menonjol di atmosfer Jupiter?',
       options: [
-        { id: 'opt-a', text: 'Danau lava cair yang berpijar terang' },
-        { id: 'opt-b', text: 'Badai antisiklon raksasa yang berputar ratusan tahun dan berukuran lebih besar dari Bumi' },
-        { id: 'opt-c', text: 'Lubang kawah akibat hantaman asteroid raksasa' },
-        { id: 'opt-d', text: 'Kumpulan jutaan kunang-kunang kosmik antariksa' }
+        { id: 'opt-a', text: 'Kawah tumbukan asteroid purba berapi' },
+        { id: 'opt-b', text: 'Badai antisiklon raksasa yang berputar kencang, berukuran lebih besar dari Bumi, dan telah berkecamuk ratusan tahun' },
+        { id: 'opt-c', text: 'Danau lahar pijar yang menyembur dari dalam inti planet' },
+        { id: 'opt-d', text: 'Kumpulan jutaan komet yang terjebak di awan' }
       ],
       correctOptionId: 'opt-b',
-      explanation: 'Bintik Merah Raksasa di Jupiter adalah badai pusaran angin berkekuatan dahsyat yang ukurannya melebihi diameter Bumi dan telah berkecamuk lebih dari 300 tahun.',
+      explanation: 'Bintik Merah Raksasa adalah badai pusaran angin antisiklon raksasa berkekuatan dahsyat dengan diameter melebihi diameter Bumi yang telah teramati berputar selama lebih dari 300 tahun.',
       sourceNote: 'NASA Solar System Exploration'
     }
   ],
@@ -347,15 +351,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'saturn',
       category: 'rotation',
       categoryName: 'Rotasi Planet',
-      question: 'Berapa lama perkiraan waktu yang diperlukan Saturnus untuk melakukan satu putaran rotasi pada porosnya?',
+      question: 'Bagaimanakah karakteristik rotasi planet Saturnus pada porosnya dan berapa lama waktu satu hari di sana?',
       options: [
-        { id: 'opt-a', text: 'Sekitar 10,7 jam' },
-        { id: 'opt-b', text: 'Sekitar 24 jam' },
-        { id: 'opt-c', text: 'Sekitar 58 hari' },
-        { id: 'opt-d', text: 'Sekitar 88 hari' }
+        { id: 'opt-a', text: 'Berotasi sangat cepat pada porosnya dengan kecepatan tinggi, membutuhkan waktu sekitar 10,7 jam' },
+        { id: 'opt-b', text: 'Berotasi sangat lambat selama 88 hari Bumi karena terhalang oleh cincinnya' },
+        { id: 'opt-c', text: 'Berotasi retrograde terbalik, membutuhkan waktu sekitar 243 hari Bumi' },
+        { id: 'opt-d', text: 'Berotasi dengan kecepatan konstan persis sama dengan revolusi Bulan, yaitu 27 hari' }
       ],
       correctOptionId: 'opt-a',
-      explanation: 'Saturnus berputar sangat cepat pada porosnya, memerlukan waktu sekitar 10,7 jam untuk menyelesaikan satu putaran penuh.',
+      explanation: 'Sebagai raksasa gas, Saturnus berputar sangat cepat pada porosnya, hanya membutuhkan waktu sekitar 10,7 jam untuk menyelesaikan satu kali rotasi penuh.',
       sourceNote: 'NASA Saturn Fact Sheet'
     },
     {
@@ -363,15 +367,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'saturn',
       category: 'revolution',
       categoryName: 'Revolusi Planet',
-      question: 'Berapa lama periode revolusi Saturnus dalam mengelilingi Matahari satu kali putaran?',
+      question: 'Bagaimanakah gerak revolusi Saturnus mengelilingi Matahari dan berapa lama periode satu tahun orbitnya?',
       options: [
-        { id: 'opt-a', text: 'Sekitar 687 hari Bumi' },
-        { id: 'opt-b', text: 'Sekitar 11,86 tahun Bumi' },
-        { id: 'opt-c', text: 'Sekitar 29,4 tahun Bumi' },
-        { id: 'opt-d', text: 'Sekitar 84 tahun Bumi' }
+        { id: 'opt-a', text: 'Mengorbit di lintasan luas di belakang Jupiter pada jarak sangat jauh, membutuhkan waktu sekitar 29,4 tahun Bumi' },
+        { id: 'opt-b', text: 'Mengorbit memotong lintasan Bumi setiap 4 tahun, membutuhkan waktu sekitar 687 hari Bumi' },
+        { id: 'opt-c', text: 'Mengorbit berdekatan dengan Mars, membutuhkan waktu sekitar 11,86 tahun Bumi' },
+        { id: 'opt-d', text: 'Mengorbit di tepi terjauh galaksi, membutuhkan waktu sekitar 164,8 tahun Bumi' }
       ],
-      correctOptionId: 'opt-c',
-      explanation: 'Karena jarak orbitnya yang jauh dari Matahari, satu tahun di Saturnus setara dengan sekitar 29,4 tahun waktu di planet Bumi.',
+      correctOptionId: 'opt-a',
+      explanation: 'Karena jarak orbitnya yang mencapai sekitar 1,4 miliar kilometer dari Matahari, Saturnus memerlukan waktu sekitar 29,4 tahun waktu di Bumi untuk satu kali mengelilingi Matahari.',
       sourceNote: 'NASA Saturn Fact Sheet'
     },
     {
@@ -379,15 +383,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'saturn',
       category: 'composition',
       categoryName: 'Komposisi & Zat Penyusun',
-      question: 'Tersusun atas bahan apakah sistem cincin indah dan megah yang mengelilingi planet Saturnus?',
+      question: 'Tersusun dari partikel-partikel apakah sistem cincin megah dan spektakuler yang mengitari planet Saturnus?',
       options: [
-        { id: 'opt-a', text: 'Lempengan emas padat dan perak murni' },
-        { id: 'opt-b', text: 'Miliaran partikel es air, debu kosmik, dan pecahan batuan' },
-        { id: 'opt-c', text: 'Gas beracun yang menyala oleh sengatan listrik' },
-        { id: 'opt-d', text: 'Kaca kristal buatan satelit antariksa' }
+        { id: 'opt-a', text: 'Lempengan logam baja padat buatan alien' },
+        { id: 'opt-b', text: 'Miliaran bongkahan partikel es air murni, debu kosmik, dan pecahan batuan (mulai dari butiran pasir hingga sebesar gunung kecil)' },
+        { id: 'opt-c', text: 'Pancaran sinar laser magnetik yang membeku' },
+        { id: 'opt-d', text: 'Asap belerang panas yang terbakar terus-menerus' }
       ],
       correctOptionId: 'opt-b',
-      explanation: 'Cincin Saturnus tersusun atas miliaran pecahan es air, partikel debu, dan bebatuan berukuran mulai dari butiran pasir kecil hingga bongkahan sebesar rumah.',
+      explanation: 'Cincin Saturnus tersusun atas miliaran partikel yang didominasi es air murni bercampur debu dan pecahan batuan dengan ukuran bervariasi dari butiran pasir hingga sebesar rumah.',
       sourceNote: 'NASA Solar System Exploration'
     },
     {
@@ -395,15 +399,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'saturn',
       category: 'funFact',
       categoryName: 'Fakta Unik',
-      question: 'Apakah keunikan massa jenis (densitas) planet Saturnus dibandingkan dengan planet-planet lainnya?',
+      question: 'Apakah keunikan massa jenis (densitas) planet Saturnus jika dibandingkan dengan zat cair di Bumi?',
       options: [
-        { id: 'opt-a', text: 'Merupakan planet paling padat dan terberat di alam semesta' },
-        { id: 'opt-b', text: 'Memiliki massa jenis lebih kecil dari air, sehingga secara teoritis dapat mengapung di air' },
-        { id: 'opt-c', text: 'Memiliki gravitasi jutaan kali lipat lebih kuat dari Matahari' },
-        { id: 'opt-d', text: 'Tidak memiliki massa sama sekali' }
+        { id: 'opt-a', text: 'Memiliki massa jenis paling padat dan terberat di antara semua planet' },
+        { id: 'opt-b', text: 'Memiliki massa jenis lebih kecil daripada air (~0,69 g/cm³), sehingga secara teori dapat terapung jika dimasukkan ke bak air raksasa' },
+        { id: 'opt-c', text: 'Tidak memiliki gaya gravitasi sama sekali sehingga cincinnya melayang' },
+        { id: 'opt-d', text: 'Memiliki massa jenis jutaan kali lipat lebih berat daripada Matahari' }
       ],
       correctOptionId: 'opt-b',
-      explanation: 'Saturnus memiliki massa jenis rata-rata sekitar 0,69 g/cm³, lebih rendah daripada massa jenis air (1 g/cm³). Jika ada bak air raksasa yang muat, Saturnus akan terapung!',
+      explanation: 'Massa jenis rata-rata Saturnus hanya sekitar 0,69 g/cm³, lebih ringan dari massa jenis air (1 g/cm³). Ini menjadikannya satu-satunya planet yang secara teoretis dapat mengapung di atas air!',
       sourceNote: 'NASA Saturn Fact Sheet'
     }
   ],
@@ -414,15 +418,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'uranus',
       category: 'rotation',
       categoryName: 'Rotasi Planet',
-      question: 'Bagaimanakah keunikan posisi poros rotasi Uranus jika dibandingkan dengan planet-planet lainnya?',
+      question: 'Bagaimanakah karakteristik unik arah dan sudut rotasi Uranus pada porosnya serta berapa lama durasinya?',
       options: [
-        { id: 'opt-a', text: 'Berputar sangat lambat selama 1.000 tahun per putaran' },
-        { id: 'opt-b', text: 'Porosnya miring menyamping sekitar 98 derajat, sehingga tampak menggelinding di orbitnya' },
-        { id: 'opt-c', text: 'Berputar bolak-balik ke atas dan ke bawah setiap hari' },
-        { id: 'opt-d', text: 'Berputar tegak lurus sempurna 0 derajat tanpa kemiringan' }
+        { id: 'opt-a', text: 'Berotasi miring ekstrem menyamping sekitar 98 derajat (seperti menggelinding) secara retrograde, membutuhkan waktu sekitar 17 jam' },
+        { id: 'opt-b', text: 'Berotasi tegak lurus sempurna tanpa kemiringan poros sedikit pun, membutuhkan waktu sekitar 24 jam' },
+        { id: 'opt-c', text: 'Berotasi sangat lambat selama 84 tahun Bumi tanpa pernah berganti hari' },
+        { id: 'opt-d', text: 'Berotasi terbalik naik-turun secara vertikal, membutuhkan waktu sekitar 10,7 jam' }
       ],
-      correctOptionId: 'opt-b',
-      explanation: 'Poros rotasi Uranus memiliki kemiringan ekstrem sekitar 98 derajat (hampir horizontal), sehingga Uranus tampak menggelinding menyamping saat mengitari orbitnya.',
+      correctOptionId: 'opt-a',
+      explanation: 'Poros rotasi Uranus miring secara ekstrem sebesar ~98 derajat (hampir sejajar bidang orbitnya) dengan arah retrograde, tampak seolah menggelinding menyamping dan menyelesaikan rotasi dalam tempo sekitar 17 jam.',
       sourceNote: 'NASA Uranus Fact Sheet'
     },
     {
@@ -430,15 +434,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'uranus',
       category: 'revolution',
       categoryName: 'Revolusi Planet',
-      question: 'Berapa lama waktu revolusi yang dibutuhkan Uranus untuk mengelilingi Matahari satu kali putaran penuh?',
+      question: 'Bagaimanakah gerak revolusi Uranus mengelilingi Matahari dan berapa lama waktu yang diperlukannya untuk satu tahun penuh?',
       options: [
-        { id: 'opt-a', text: 'Sekitar 29,4 tahun Bumi' },
-        { id: 'opt-b', text: 'Sekitar 84 tahun Bumi' },
-        { id: 'opt-c', text: 'Sekitar 164,8 tahun Bumi' },
-        { id: 'opt-d', text: 'Sekitar 10 tahun Bumi' }
+        { id: 'opt-a', text: 'Mengorbit di wilayah dingin yang luas di antara Saturnus dan Neptunus, membutuhkan waktu sekitar 84 tahun Bumi' },
+        { id: 'opt-b', text: 'Mengorbit di sebelah dalam orbit Bumi, membutuhkan waktu sekitar 29,4 tahun Bumi' },
+        { id: 'opt-c', text: 'Mengorbit di tepi luar Tata Surya paling lambat, membutuhkan waktu sekitar 164,8 tahun Bumi' },
+        { id: 'opt-d', text: 'Mengorbit cepat melintasi orbit komet, membutuhkan waktu sekitar 12 tahun Bumi' }
       ],
-      correctOptionId: 'opt-b',
-      explanation: 'Uranus membutuhkan waktu sekitar 84 tahun waktu di Bumi untuk menyelesaikan satu kali putaran revolusi mengelilingi Matahari.',
+      correctOptionId: 'opt-a',
+      explanation: 'Uranus menempuh lintasan orbit yang sangat luas di bagian luar Tata Surya, membutuhkan waktu sekitar 84 tahun Bumi untuk menyelesaikan satu kali perjalanan mengitari Matahari.',
       sourceNote: 'NASA Uranus Fact Sheet'
     },
     {
@@ -446,15 +450,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'uranus',
       category: 'composition',
       categoryName: 'Komposisi & Zat Penyusun',
-      question: 'Mengapa ilmuwan mengelompokkan planet Uranus sebagai "Raksasa Es" (Ice Giant)?',
+      question: 'Mengapa para ilmuwan mengelompokkan planet Uranus sebagai "Raksasa Es" (Ice Giant)?',
       options: [
-        { id: 'opt-a', text: 'Karena seluruh tubuhnya adalah balok es padat seperti es batu di kulkas' },
-        { id: 'opt-b', text: 'Karena interiornya kaya akan fluida senyawa volatil (air, amonia, dan metana) di atas inti berbatu kecil' },
-        { id: 'opt-c', text: 'Karena sama sekali tidak memiliki atmosfer gas' },
-        { id: 'opt-d', text: 'Karena terbentuk dari jutaan komet salju yang menempel' }
+        { id: 'opt-a', text: 'Karena tubuhnya berupa balok es batu beku kaku dari permukaan sampai pusat tanpa udara' },
+        { id: 'opt-b', text: 'Karena interiornya didominasi fluida padat panas senyawa volatil (air, amonia, dan metana) di bawah atmosfer tebal hidrogen-helium' },
+        { id: 'opt-c', text: 'Karena permukaannya berupa lautan es kutub yang dapat dipijak oleh manusia' },
+        { id: 'opt-d', text: 'Karena planet ini tidak memiliki inti berbatu sama sekali' }
       ],
       correctOptionId: 'opt-b',
-      explanation: 'Istilah "raksasa es" merujuk pada komposisi interior tebalnya yang didominasi zat-zat volatil padat/panas seperti air, amonia, dan metana, bukan es balok padat kaku.',
+      explanation: 'Istilah "raksasa es" merujuk pada komposisi interior tebalnya yang kaya cairan bertekanan tinggi dari senyawa volatil (air, metana, dan amonia), bukan balok es padat seperti es batu di kulkas.',
       sourceNote: 'NASA Solar System Exploration'
     },
     {
@@ -462,15 +466,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'uranus',
       category: 'funFact',
       categoryName: 'Fakta Unik',
-      question: 'Gas apakah di atmosfer atas Uranus yang menyerap cahaya merah dan memantulkan warna biru-hijau (sian) khas?',
+      question: 'Zat apakah di lapisan atmosfer atas Uranus yang menyerap cahaya merah dan memantulkan warna biru-hijau (sian) yang menawan?',
       options: [
         { id: 'opt-a', text: 'Gas nitrogen murni' },
         { id: 'opt-b', text: 'Gas metana (CH₄)' },
-        { id: 'opt-c', text: 'Gas karbon monoksida' },
-        { id: 'opt-d', text: 'Uap belerang kuning' }
+        { id: 'opt-c', text: 'Uap belerang kuning' },
+        { id: 'opt-d', text: 'Gas karbon monoksida pekat' }
       ],
       correctOptionId: 'opt-b',
-      explanation: 'Metana di lapisan atmosfer Uranus menyerap spektrum cahaya merah dari Matahari dan memantulkan kembali spektrum biru-hijau, menghasilkan warna sian pastel yang menawan.',
+      explanation: 'Gas metana (CH₄) di atmosfer Uranus menyerap spektrum gelombang cahaya merah dari Matahari dan memantulkan kembali spektrum cahaya biru-hijau, memberikan Uranus rona sian pastel yang khas.',
       sourceNote: 'NASA Uranus Fact Sheet'
     }
   ],
@@ -481,15 +485,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'neptune',
       category: 'rotation',
       categoryName: 'Rotasi Planet',
-      question: 'Berapa lama periode rotasi planet Neptunus pada porosnya?',
+      question: 'Bagaimanakah karakteristik rotasi planet Neptunus pada porosnya dan berapa lama waktu yang dibutuhkannya?',
       options: [
-        { id: 'opt-a', text: 'Sekitar 16 jam' },
-        { id: 'opt-b', text: 'Sekitar 24 jam' },
-        { id: 'opt-c', text: 'Sekitar 88 hari' },
-        { id: 'opt-d', text: 'Sekitar 365 hari' }
+        { id: 'opt-a', text: 'Berotasi dari barat ke timur dengan kemiringan poros sekitar 28 derajat, membutuhkan waktu sekitar 16 jam' },
+        { id: 'opt-b', text: 'Berotasi sangat lambat selama 164 tahun Bumi tanpa pernah berganti siang' },
+        { id: 'opt-c', text: 'Berotasi mundur terbalik selama 243 hari Bumi persis seperti Venus' },
+        { id: 'opt-d', text: 'Berotasi sangat kencang dalam waktu 2 jam saja sehingga memecah cincinnya' }
       ],
       correctOptionId: 'opt-a',
-      explanation: 'Neptunus berotasi cukup cepat pada porosnya, menyelesaikan satu kali putaran dalam waktu sekitar 16 jam.',
+      explanation: 'Neptunus berotasi dari barat ke timur dengan poros miring sekitar 28 derajat, berputar cukup gesit dengan menyelesaikan satu kali rotasi penuh dalam waktu sekitar 16 jam.',
       sourceNote: 'NASA Neptune Fact Sheet'
     },
     {
@@ -497,15 +501,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'neptune',
       category: 'revolution',
       categoryName: 'Revolusi Planet',
-      question: 'Berapa lama waktu revolusi Neptunus sebagai planet yang posisinya paling terluar di Tata Surya?',
+      question: 'Bagaimanakah gerak revolusi Neptunus sebagai planet terjauh di Tata Surya dan berapa lama waktu satu tahun di Neptunus?',
       options: [
-        { id: 'opt-a', text: 'Sekitar 84 tahun Bumi' },
-        { id: 'opt-b', text: 'Sekitar 164,8 tahun Bumi (hampir 165 tahun)' },
-        { id: 'opt-c', text: 'Sekitar 29,4 tahun Bumi' },
-        { id: 'opt-d', text: 'Sekitar 11,86 tahun Bumi' }
+        { id: 'opt-a', text: 'Mengorbit di lintasan terluar dan terpanjang di antara 8 planet, membutuhkan waktu sekitar 164,8 tahun Bumi (hampir 165 tahun)' },
+        { id: 'opt-b', text: 'Mengorbit bersilangan dekat matahari setiap dekade, membutuhkan waktu sekitar 84 tahun Bumi' },
+        { id: 'opt-c', text: 'Mengorbit sejajar bersama Saturnus di jarak dekat, membutuhkan waktu sekitar 29,4 tahun Bumi' },
+        { id: 'opt-d', text: 'Mengorbit sangat cepat di dekat sabuk asteroid, membutuhkan waktu sekitar 11,86 tahun Bumi' }
       ],
-      correctOptionId: 'opt-b',
-      explanation: 'Karena jarak orbitnya yang paling jauh dari Matahari, Neptunus membutuhkan waktu sekitar 164,8 tahun Bumi untuk menyelesaikan satu putaran orbit revolusi.',
+      correctOptionId: 'opt-a',
+      explanation: 'Sebagai planet dengan orbit paling luar (sekitar 4,5 miliar km dari Matahari), Neptunus memerlukan waktu sekitar 164,8 tahun waktu di Bumi untuk menyelesaikan satu kali putaran orbit revolusi.',
       sourceNote: 'NASA Neptune Fact Sheet'
     },
     {
@@ -513,15 +517,15 @@ export const QUIZ_QUESTIONS = {
       planetId: 'neptune',
       category: 'composition',
       categoryName: 'Komposisi & Zat Penyusun',
-      question: 'Termasuk dalam jenis planet apakah Neptunus dan bagaimanakah susunan bagian dalamnya?',
+      question: 'Bagaimanakah struktur dan komposisi zat pembentuk tubuh raksasa es Neptunus?',
       options: [
-        { id: 'opt-a', text: 'Planet batuan padat mirip seperti Merkurius' },
-        { id: 'opt-b', text: 'Raksasa es dengan interior fluida pekat air, amonia, dan metana di atas inti berbatu kecil' },
-        { id: 'opt-c', text: 'Raksasa gas murni tanpa ada senyawa air atau es sedikit pun' },
-        { id: 'opt-d', text: 'Bintang kerdil yang gagal bersinar' }
+        { id: 'opt-a', text: 'Planet batuan logam padat tanpa lapisan atmosfer gas' },
+        { id: 'opt-b', text: 'Raksasa es dengan interior fluida tebal air, amonia, dan metana bertekanan tinggi di atas inti berbatu kecil seukuran Bumi' },
+        { id: 'opt-c', text: 'Bola gas hidrogen murni tanpa adanya senyawa air atau metana sedikit pun' },
+        { id: 'opt-d', text: 'Bintang katai yang gagal berpijar dan tidak memiliki inti' }
       ],
       correctOptionId: 'opt-b',
-      explanation: 'Neptunus adalah raksasa es yang interiornya didominasi fluida padat panas senyawa volatil (air, amonia, dan metana) yang menyelimuti inti berbatu seukuran Bumi.',
+      explanation: 'Neptunus adalah raksasa es yang interiornya didominasi fluida padat panas senyawa volatil (air, amonia, dan metana) yang menyelimuti inti berbatu kecil, diselimuti atmosfer hidrogen, helium, dan metana.',
       sourceNote: 'NASA Neptune Fact Sheet'
     },
     {
@@ -529,17 +533,16 @@ export const QUIZ_QUESTIONS = {
       planetId: 'neptune',
       category: 'funFact',
       categoryName: 'Fakta Unik',
-      question: 'Karakteristik cuaca ekstrem apakah yang paling luar biasa dan memecahkan rekor di planet Neptunus?',
+      question: 'Karakteristik cuaca ekstrem apakah yang paling dahsyat dan memecahkan rekor antariksa di planet Neptunus?',
       options: [
-        { id: 'opt-a', text: 'Memiliki suhu permukaan terpanas yang bisa melelehkan besi' },
-        { id: 'opt-b', text: 'Memiliki angin badai tercepat di Tata Surya yang melaju lebih dari 2.000 km/jam' },
-        { id: 'opt-c', text: 'Mengalami hujan bongkahan asteroid setiap sore' },
-        { id: 'opt-d', text: 'Tidak pernah memiliki angin atau badai sedikit pun' }
+        { id: 'opt-a', text: 'Memiliki badai angin tercepat di Tata Surya, dengan hembusan melesat lebih dari 2.000 km/jam (melampaui kecepatan suara)' },
+        { id: 'opt-b', text: 'Mengalami hujan batu meteorit raksasa setiap jam di seluruh permukaannya' },
+        { id: 'opt-c', text: 'Memiliki suhu permukaan terpanas yang mampu melelehkan intan' },
+        { id: 'opt-d', text: 'Tidak pernah memiliki hembusan angin sedikit pun sepanjang tahun' }
       ],
-      correctOptionId: 'opt-b',
-      explanation: 'Neptunus memiliki hembusan angin badai terkuat di seluruh Tata Surya, dengan kecepatan angin yang dapat melesat melebihi 2.000 km per jam (melampaui kecepatan suara).',
+      correctOptionId: 'opt-a',
+      explanation: 'Neptunus adalah planet dengan hembusan angin badai terkuat di seluruh Tata Surya; hembusan angin badainya dapat melesat melebihi 2.000 km per jam, jauh melampaui kecepatan suara!',
       sourceNote: 'NASA Solar System Exploration'
     }
   ]
 };
-
