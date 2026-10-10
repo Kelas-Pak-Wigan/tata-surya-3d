@@ -281,9 +281,9 @@ export class SolarSystemScene {
     this.lastTime = now;
     const delta = Math.min(rawDelta, 0.1);
 
-    // 1. Rotasi matahari & efek pijar
+    // 1. Rotasi matahari & efek pijar (5x lebih cepat)
     if (this.sun) {
-      this.sun.coreMesh.rotation.y += 0.04 * delta * (this.isPlaying ? this.speedMultiplier : 0.2);
+      this.sun.coreMesh.rotation.y += 0.20 * delta * (this.isPlaying ? this.speedMultiplier : 0.2);
     }
 
     // 2. Animasi Planet (Revolusi & Rotasi)
@@ -309,8 +309,8 @@ export class SolarSystemScene {
         }
       }
 
-      // Rotasi pada poros berbasis delta-time (independen dari refresh rate layar 60Hz/144Hz/200Hz)
-      const rotFactor = 8.0 * delta * (this.isPlaying ? this.speedMultiplier : 0.3);
+      // Rotasi pada poros berbasis delta-time (ditingkatkan 5x lebih cepat: dari 8.0 menjadi 40.0)
+      const rotFactor = 40.0 * delta * (this.isPlaying ? this.speedMultiplier : 0.3);
       p.bodyMesh.rotation.y += p.rotSpeed * rotFactor;
 
       // Awan bumi
@@ -363,11 +363,12 @@ export class SolarSystemScene {
     const width = this.container.clientWidth;
     const height = this.container.clientHeight;
 
-    const x = (pos.x * 0.5 + 0.5) * width;
-    const y = (-pos.y * 0.5 + 0.5) * height;
+    const x = Math.round((pos.x * 0.5 + 0.5) * width);
+    const y = Math.round((-pos.y * 0.5 + 0.5) * height);
 
     planetObj.labelEl.style.display = 'block';
-    planetObj.labelEl.style.transform = `translate(-50%, -100%) translate(${x}px, ${y}px)`;
+    planetObj.labelEl.style.left = `${x}px`;
+    planetObj.labelEl.style.top = `${y}px`;
   }
 
   destroy() {
