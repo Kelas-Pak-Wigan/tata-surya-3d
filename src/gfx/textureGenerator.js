@@ -1192,6 +1192,127 @@ export class TextureGenerator {
   }
 
   // =========================================================================
+  // 10. ASTEROID - Regolith Berdebu, Kawah Tabrakan & Faset Batuan Alami
+  // =========================================================================
+  static createAsteroidTexture(width = 512, height = 512) {
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+
+    const imgData = ctx.createImageData(width, height);
+    const data = imgData.data;
+
+    for (let y = 0; y < height; y++) {
+      const v = y / height;
+      for (let x = 0; x < width; x++) {
+        const u = x / width;
+
+        const n1 = sphereNoise(u, v, 6, 6, 4);
+        const n2 = sphereNoise(u * 2, v * 2, 12, 12, 3);
+        const rockNoise = n1 * 0.7 + n2 * 0.3;
+
+        // Palet gelap regolith batuan kosmis (albedo ~ 0.10 - 0.18)
+        const base = Math.floor(65 + rockNoise * 45);
+        const idx = (y * width + x) * 4;
+        data[idx] = Math.floor(base * 1.02);     // sedikit kehangatan silikat
+        data[idx + 1] = Math.floor(base * 0.98); // netral abu-abu
+        data[idx + 2] = Math.floor(base * 0.92); // silikat gelap
+        data[idx + 3] = 255;
+      }
+    }
+    ctx.putImageData(imgData, 0, 0);
+
+    // Kawah tabrakan dengan rim bercahaya dan bayangan interior
+    const numCraters = 65;
+    for (let i = 0; i < numCraters; i++) {
+      const cx = (Math.sin(i * 17.3) * 0.5 + 0.5) * width;
+      const cy = (Math.cos(i * 29.7) * 0.5 + 0.5) * height;
+      const r = 3 + Math.pow(Math.sin(i * 43.1) * 0.5 + 0.5, 2) * 28;
+
+      // Halo ejekta debu cerah
+      const grad = ctx.createRadialGradient(cx, cy, r * 0.6, cx, cy, r * 1.8);
+      grad.addColorStop(0, 'rgba(160, 155, 145, 0.25)');
+      grad.addColorStop(1, 'rgba(100, 95, 85, 0.0)');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r * 1.8, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Cekungan kawah gelap
+      ctx.fillStyle = 'rgba(28, 26, 24, 0.75)';
+      ctx.beginPath();
+      ctx.arc(cx, cy, r * 0.85, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Bibir kawah (crater rim highlight)
+      ctx.strokeStyle = 'rgba(175, 168, 158, 0.85)';
+      ctx.lineWidth = Math.max(1.2, r * 0.12);
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.ClampToEdgeWrapping;
+    return texture;
+  }
+
+  static createAsteroidBumpMap(width = 512, height = 512) {
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+
+    const imgData = ctx.createImageData(width, height);
+    const data = imgData.data;
+
+    for (let y = 0; y < height; y++) {
+      const v = y / height;
+      for (let x = 0; x < width; x++) {
+        const u = x / width;
+        const n = sphereNoise(u, v, 10, 10, 4);
+        const bumpVal = Math.floor(100 + n * 55);
+
+        const idx = (y * width + x) * 4;
+        data[idx] = bumpVal;
+        data[idx + 1] = bumpVal;
+        data[idx + 2] = bumpVal;
+        data[idx + 3] = 255;
+      }
+    }
+    ctx.putImageData(imgData, 0, 0);
+
+    // Kawah timbul / cekung pada peta bump
+    const numCraters = 65;
+    for (let i = 0; i < numCraters; i++) {
+      const cx = (Math.sin(i * 17.3) * 0.5 + 0.5) * width;
+      const cy = (Math.cos(i * 29.7) * 0.5 + 0.5) * height;
+      const r = 3 + Math.pow(Math.sin(i * 43.1) * 0.5 + 0.5, 2) * 28;
+
+      // Cekungan kawah (nilai bump rendah / gelap)
+      ctx.fillStyle = 'rgba(25, 25, 25, 0.7)';
+      ctx.beginPath();
+      ctx.arc(cx, cy, r * 0.85, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Bibir rim kawah (nilai bump tinggi / putih timbul)
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.85)';
+      ctx.lineWidth = Math.max(1.5, r * 0.15);
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.ClampToEdgeWrapping;
+    return texture;
+  }
+
+  // =========================================================================
   // Dispatcher Generator
   // =========================================================================
   static getTextureForPlanet(type) {
@@ -1206,6 +1327,7 @@ export class TextureGenerator {
       case 'saturn': return this.createSaturnTexture();
       case 'uranus': return this.createUranusTexture();
       case 'neptune': return this.createNeptuneTexture();
+      case 'asteroid': return this.createAsteroidTexture();
       default: return this.createEarthTexture();
     }
   }
@@ -1216,6 +1338,7 @@ export class TextureGenerator {
       case 'moon': return this.createMoonBumpMap();
       case 'mars': return this.createMarsBumpMap();
       case 'earth': return this.createEarthBumpMap();
+      case 'asteroid': return this.createAsteroidBumpMap();
       default: return null;
     }
   }
