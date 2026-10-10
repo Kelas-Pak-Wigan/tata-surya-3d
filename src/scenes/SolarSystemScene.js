@@ -32,7 +32,7 @@ export class SolarSystemScene {
     this.mouse = new THREE.Vector2();
 
     this.animationFrameId = null;
-    this.clock = new THREE.Clock();
+    this.lastTime = performance.now();
 
     this.init();
   }
@@ -71,12 +71,16 @@ export class SolarSystemScene {
     this.controls.touches = { ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_PAN };
 
     // 5. Pencahayaan
-    // Ambient light redup di angkasa agar sisi gelap planet tetap sedikit terlihat
-    const ambientLight = new THREE.AmbientLight(0x223355, 0.45);
+    // Ambient light seimbang: sisi gelap planet tetap memperlihatkan siluet & detail kontur estetis
+    const ambientLight = new THREE.AmbientLight(0x283850, 0.55);
     this.scene.add(ambientLight);
 
+    // Hemisphere light kosmis untuk memberikan gradasi halus antara belahan atas dan bawah antariksa
+    const hemiLight = new THREE.HemisphereLight(0x1a2638, 0x080e1a, 0.35);
+    this.scene.add(hemiLight);
+
     // 6. Starfield
-    const starfield = this.meshFactory.createStarfield(3000, 380);
+    const starfield = this.meshFactory.createStarfield(3200, 420);
     this.scene.add(starfield);
 
     // 7. Matahari
@@ -109,7 +113,7 @@ export class SolarSystemScene {
       // Sudut awal menyebar acak agar tidak sejajar di satu garis lurus
       const startAngle = (index / PLANETS_DATA.length) * Math.PI * 2 + index * 0.4;
       meshObj.group.position.x = Math.cos(startAngle) * planetData.orbitDistanceVisual;
-      meshObj.group.position.z = Math.sin(startAngle) * planetData.orbitDistanceVisual;
+      meshObj.group.position.z = -Math.sin(startAngle) * planetData.orbitDistanceVisual;
 
       this.scene.add(meshObj.group);
 
@@ -192,18 +196,15 @@ export class SolarSystemScene {
     const interactiveMeshes = [];
     this.planetObjects.forEach(p => {
       interactiveMeshes.push(p.bodyMesh);
+      if (p.ringsMesh) interactiveMeshes.push(p.ringsMesh);
     });
 
     const intersects = this.raycaster.intersectObjects(interactiveMeshes, true);
     if (intersects.length > 0) {
-      // Cari planet yang diklik
-      let hit = intersects[0].object;
-      while (hit && (!hit.parent || !hit.name.includes('-body'))) {
-        if (hit.parent) hit = hit.parent;
-        else break;
-      }
-
-      const foundPlanet = this.planetObjects.find(p => p.bodyMesh === hit || p.group.children.includes(hit));
+      const hit = intersects[0].object;
+      const foundPlanet = this.planetObjects.find(p =>
+        p.bodyMesh === hit || p.ringsMesh === hit || p.group.getObjectById(hit.id)
+      );
       if (foundPlanet) {
         this.selectPlanet(foundPlanet.data.id);
       }
@@ -275,7 +276,9 @@ export class SolarSystemScene {
   animate() {
     this.animationFrameId = requestAnimationFrame(this.animate);
 
-    const rawDelta = this.clock.getDelta();
+    const now = performance.now();
+    const rawDelta = (now - this.lastTime) / 1000;
+    this.lastTime = now;
     const delta = Math.min(rawDelta, 0.1);
 
     // 1. Rotasi matahari & efek pijar
@@ -289,10 +292,10 @@ export class SolarSystemScene {
         const prevX = p.group.position.x;
         const prevZ = p.group.position.z;
 
-        // Revolusi mengelilingi matahari
+        // Revolusi mengelilingi matahari (Berlawanan arah jarum jam / Counter-clockwise dilihat dari kutub utara surya)
         p.angle += p.speed * 0.2 * this.speedMultiplier * delta;
         p.group.position.x = Math.cos(p.angle) * p.orbitDistance;
-        p.group.position.z = Math.sin(p.angle) * p.orbitDistance;
+        p.group.position.z = -Math.sin(p.angle) * p.orbitDistance;
 
         // Jika planet ini sedang dipilih dalam mode dekat, geser target dan kamera bersama pergerakan revolusi planet
         // sehingga rotasi manual kamera oleh pengguna dengan mouse/sentuhan tetap terjaga sempurna!

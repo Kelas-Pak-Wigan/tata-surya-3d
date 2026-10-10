@@ -82,8 +82,8 @@ export const PLANETS_DATA = [
     radiusVisual: 1.8,
     orbitDistanceVisual: 23,
     orbitSpeedVisual: 0.03,
-    rotationSpeedVisual: -0.003, // retrograde
-    axialTiltVisual: 3.1, // ~177 derajat (terbalik)
+    rotationSpeedVisual: -0.003, // retrograde (Timur ke Barat)
+    axialTiltVisual: 0.05, // ~2.6 derajat (kutub utara menghadap atas, putaran retrograde berlawanan arah dengan Bumi)
     color: 0xe3bb76,
     textureType: 'venus',
     hasRings: false,
