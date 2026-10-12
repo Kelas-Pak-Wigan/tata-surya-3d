@@ -1479,13 +1479,20 @@ html, body {
   cursor: pointer;
   white-space: nowrap;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-  transition: transform 0.15s, background-color 0.15s;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.15s;
+  user-select: none;
 }
 
 .planet-3d-label:hover {
   background: var(--primary);
   color: #060814;
-  transform: translate(-50%, -100%) scale(1.1) !important;
+  border-color: #ffffff;
+  box-shadow: 0 0 16px rgba(0, 210, 255, 0.8), 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+.planet-3d-label:active {
+  background: #00b4d8;
+  border-color: #00b4d8;
 }
 
 .viewport-overlay {

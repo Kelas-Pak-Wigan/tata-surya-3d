@@ -15,8 +15,8 @@ export class NavigationBar {
         <div class="header-brand" id="brand-home-link" role="button" tabindex="0" aria-label="Kembali ke Beranda">
           <span class="brand-logo">🪐</span>
           <div class="brand-text-group">
-            <span class="brand-title">Tata Surya 3D</span>
-            <span class="brand-subtitle">Kelas 6 SD</span>
+            <span class="brand-title">A.S.T.R.O. 3D</span>
+            <span class="brand-subtitle">Tata Surya • Kelas 6 SD</span>
           </div>
         </div>
 

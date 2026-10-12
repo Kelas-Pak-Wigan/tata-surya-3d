@@ -1,5 +1,5 @@
-# DIPAKSA PRAKTEK NGAJAR SAMA PAK ADI
-## Belajar Tata Surya — Web Game Edukasi 3D Interaktif (Kelas 6 SD)
+# A.S.T.R.O. — Academic Space Tour & Revolving Orbits
+## Web Game Edukasi 3D Tata Surya Interaktif (Kelas 6 SD)
 
 Aplikasi media pembelajaran interaktif berbasis web 3D untuk siswa kelas 6 SD dan guru, dirancang khusus untuk penggunaan di laptop dan **Papan Interaktif Digital (PID) layar sentuh 75 inci**.
 
@@ -8,8 +8,8 @@ Aplikasi media pembelajaran interaktif berbasis web 3D untuk siswa kelas 6 SD da
 ## 🚀 Fitur Utama
 
 1. **Beranda Interaktif (Homescreen)**
-   - Judul utama: **DIPAKSA PRAKTEK NGAJAR SAMA PAK ADI**
-   - Subjudul: **Belajar Tata Surya**
+   - Judul utama: **A.S.T.R.O.**
+   - Subjudul: **Academic Space Tour & Revolving Orbits**
    - Latar belakang antariksa 3D sinematik dengan bintang, pencahayaan, dan planet yang berputar halus.
    - Akses instan ke 3 menu pembelajaran: *Bumi Kita*, *Eksplorasi Luar Angkasa*, dan *Quiz Planet*.
 

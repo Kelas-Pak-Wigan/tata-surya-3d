@@ -12,8 +12,8 @@ export class HomeScreen {
             <span>Media Pembelajaran IPA Kelas 6 SD • Tata Surya 3D</span>
           </div>
 
-          <h1 class="main-title">DIPAKSA PRAKTEK NGAJAR SAMA PAK ADI</h1>
-          <h2 class="sub-title">Belajar Tata Surya</h2>
+          <h1 class="main-title">A.S.T.R.O.</h1>
+          <h2 class="sub-title">Academic Space Tour & Revolving Orbits</h2>
 
           <p class="hero-desc">
             Selamat datang di petualangan antariksa interaktif! Jelajahi keagungan Bumi dan 
