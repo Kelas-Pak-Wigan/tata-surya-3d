@@ -84,7 +84,19 @@ class App {
     // Registrasi Service Worker jika didukung
     if ('serviceWorker' in navigator && import.meta.env.PROD) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').catch(() => {});
+        navigator.serviceWorker.register('/sw.js').then((reg) => {
+          // Cek update berkala
+          reg.update().catch(() => {});
+        }).catch(() => {});
+
+        // Reload otomatis saat Service Worker baru mengambil alih
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (!refreshing) {
+            refreshing = true;
+            window.location.reload();
+          }
+        });
       });
     }
   }
