@@ -15,6 +15,7 @@ export class SolarSystemScene {
     this.controls = null;
 
     this.sun = null;
+    this.asteroidBelt = null;
     this.planetObjects = []; // { data, group, bodyMesh, cloudsMesh, ringsMesh, orbitDistance, angle, speed, labelEl }
     this.orbitLines = [];
 
@@ -32,7 +33,7 @@ export class SolarSystemScene {
     this.mouse = new THREE.Vector2();
 
     this.animationFrameId = null;
-    this.clock = new THREE.Clock();
+    this.lastTime = performance.now();
 
     this.init();
   }
@@ -71,22 +72,37 @@ export class SolarSystemScene {
     this.controls.touches = { ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_PAN };
 
     // 5. Pencahayaan
-    // Ambient light redup di angkasa agar sisi gelap planet tetap sedikit terlihat
-    const ambientLight = new THREE.AmbientLight(0x223355, 0.45);
+    // Ambient light seimbang: sisi gelap planet tetap memperlihatkan siluet & detail kontur estetis
+    const ambientLight = new THREE.AmbientLight(0x283850, 0.55);
     this.scene.add(ambientLight);
 
+    // Hemisphere light kosmis untuk memberikan gradasi halus antara belahan atas dan bawah antariksa
+    const hemiLight = new THREE.HemisphereLight(0x1a2638, 0x080e1a, 0.35);
+    this.scene.add(hemiLight);
+
+    // Lampu inspeksi edukatif terarah (Camera Headlamp)
+    // Memastikan planet yang sedang diamati dari dekat selalu terang, kaya detail tekstur, dan jelas untuk belajar
+    this.cameraLight = new THREE.DirectionalLight(0xfff8ee, 0.70);
+    this.cameraLight.position.set(0, 0, 1);
+    this.camera.add(this.cameraLight);
+    this.scene.add(this.camera);
+
     // 6. Starfield
-    const starfield = this.meshFactory.createStarfield(3000, 380);
+    const starfield = this.meshFactory.createStarfield(3200, 420);
     this.scene.add(starfield);
 
     // 7. Matahari
     this.sun = this.meshFactory.createSun(SUN_DATA);
     this.scene.add(this.sun.group);
 
-    // 8. Buat Delapan Planet & Orbitnya
+    // 8. Sabuk Asteroid 3D Ilmiah (Terletak di antara orbit Mars dan Jupiter)
+    this.asteroidBelt = this.meshFactory.createAsteroidBelt(43.0, 49.0, 1350);
+    this.scene.add(this.asteroidBelt);
+
+    // 9. Buat Delapan Planet & Orbitnya
     this.buildPlanets();
 
-    // 9. Event Listeners
+    // 10. Event Listeners
     this.bindEvents();
 
     // 11. Mulai Render Loop
@@ -109,7 +125,7 @@ export class SolarSystemScene {
       // Sudut awal menyebar acak agar tidak sejajar di satu garis lurus
       const startAngle = (index / PLANETS_DATA.length) * Math.PI * 2 + index * 0.4;
       meshObj.group.position.x = Math.cos(startAngle) * planetData.orbitDistanceVisual;
-      meshObj.group.position.z = Math.sin(startAngle) * planetData.orbitDistanceVisual;
+      meshObj.group.position.z = -Math.sin(startAngle) * planetData.orbitDistanceVisual;
 
       this.scene.add(meshObj.group);
 
@@ -192,22 +208,60 @@ export class SolarSystemScene {
     const interactiveMeshes = [];
     this.planetObjects.forEach(p => {
       interactiveMeshes.push(p.bodyMesh);
+      if (p.ringsMesh) interactiveMeshes.push(p.ringsMesh);
     });
 
     const intersects = this.raycaster.intersectObjects(interactiveMeshes, true);
     if (intersects.length > 0) {
-      // Cari planet yang diklik
-      let hit = intersects[0].object;
-      while (hit && (!hit.parent || !hit.name.includes('-body'))) {
-        if (hit.parent) hit = hit.parent;
-        else break;
-      }
-
-      const foundPlanet = this.planetObjects.find(p => p.bodyMesh === hit || p.group.children.includes(hit));
+      const hit = intersects[0].object;
+      const foundPlanet = this.planetObjects.find(p =>
+        p.bodyMesh === hit || p.ringsMesh === hit || p.group.getObjectById(hit.id)
+      );
       if (foundPlanet) {
         this.selectPlanet(foundPlanet.data.id);
       }
     }
+  }
+
+  computeCloseUpCameraTarget(planetObj) {
+    const radius = planetObj.data.radiusVisual;
+    const pPos = planetObj.group.position;
+
+    // Jarak observasi edukatif yang lega & proporsional
+    let viewDistance = Math.max(20, radius * 6.5 + 12);
+    if (planetObj.data.hasRings) {
+      const ringR = planetObj.data.ringOuterRadius || radius * 2.8;
+      viewDistance = Math.max(viewDistance, ringR * 4.6 + 6);
+    }
+    if (planetObj.data.id === 'earth') {
+      viewDistance = 26; // Ruang lega untuk sistem Bumi & Bulan
+    }
+
+    // Vektor satuan dari Matahari (0,0,0) ke Planet (arah pancaran sinar matahari utama)
+    const orbDist = Math.hypot(pPos.x, pPos.z) || 1;
+    const ux = pPos.x / orbDist;
+    const uz = pPos.z / orbDist;
+
+    // Vektor tangensial (tegak lurus terhadap arah sinar matahari)
+    const tx = -uz;
+    const tz = ux;
+
+    // Supaya kamera memandang SISI PLANET YANG TERKENA SINAR MATAHARI (illuminated day side):
+    // Kamera ditempatkan di sisi yang menghadap datangnya sinar matahari (-ux, -uz),
+    // dipadukan dengan sedikit sudut samping (+tx, +tz) dan elevasi atas (+Y) untuk menghasilkan fase gibbous 3D yang indah.
+    // Untuk planet terdekat (Merkurius), batasi pergeseran ke arah matahari agar kamera tidak masuk ke dalam bola matahari (radius 8.5)
+    const maxSunStep = Math.max(2.5, orbDist - 12.5);
+    const kSun = Math.min(viewDistance * 0.65, maxSunStep);
+    const kTangent = Math.sqrt(Math.max(0, viewDistance * viewDistance * 0.85 - kSun * kSun * 0.5));
+    const kY = Math.max(8, viewDistance * 0.35);
+
+    // Posisi kamera di sisi siang hari planet (sunward daylit hemisphere)
+    const camX = pPos.x - ux * kSun + tx * kTangent;
+    const camY = pPos.y + kY;
+    const camZ = pPos.z - uz * kSun + tz * kTangent;
+
+    this.cameraTargetPos.set(camX, camY, camZ);
+    this.controlsTargetPos.copy(pPos);
   }
 
   selectPlanet(planetId) {
@@ -217,21 +271,13 @@ export class SolarSystemScene {
     this.selectedPlanetId = planetId;
     this.isCloseUpMode = true;
 
-    // Batasi jarak zoom orbit kamera untuk kenyamanan memutar planet yang dipilih
+    // PENTING: JANGAN KUNCI maxDistance! 
+    // Biarkan pengguna tetap bisa zoom-out bebas (hingga 400) untuk melihat tata surya kapan saja!
     const radius = planetObj.data.radiusVisual;
     this.controls.minDistance = Math.max(2.5, radius * 1.5);
-    this.controls.maxDistance = radius * 14 + 30;
+    this.controls.maxDistance = 400; // Selalu bebas zoom-out kapan saja!
 
-    // Posisikan kamera mendekati planet
-    const pPos = planetObj.group.position;
-    const offsetDistance = radius * 3.6 + 4.0;
-
-    this.cameraTargetPos.set(
-      pPos.x + offsetDistance * 0.7,
-      pPos.y + offsetDistance * 0.4,
-      pPos.z + offsetDistance * 0.7
-    );
-    this.controlsTargetPos.copy(pPos);
+    this.computeCloseUpCameraTarget(planetObj);
     this.isTransitioning = true;
 
     if (this.onSelectPlanet) {
@@ -253,14 +299,22 @@ export class SolarSystemScene {
   }
 
   zoomIn() {
+    const dist = this.camera.position.distanceTo(this.controls.target);
+    const step = Math.max(2.0, dist * 0.16);
     const dir = new THREE.Vector3().subVectors(this.controls.target, this.camera.position).normalize();
-    this.camera.position.addScaledVector(dir, 10);
+    if (dist - step >= this.controls.minDistance) {
+      this.camera.position.addScaledVector(dir, step);
+    }
     this.controls.update();
   }
 
   zoomOut() {
+    const dist = this.camera.position.distanceTo(this.controls.target);
+    const step = Math.max(2.0, dist * 0.16);
     const dir = new THREE.Vector3().subVectors(this.controls.target, this.camera.position).normalize();
-    this.camera.position.addScaledVector(dir, -10);
+    if (dist + step <= this.controls.maxDistance) {
+      this.camera.position.addScaledVector(dir, -step);
+    }
     this.controls.update();
   }
 
@@ -275,24 +329,35 @@ export class SolarSystemScene {
   animate() {
     this.animationFrameId = requestAnimationFrame(this.animate);
 
-    const rawDelta = this.clock.getDelta();
+    const now = performance.now();
+    const rawDelta = (now - this.lastTime) / 1000;
+    this.lastTime = now;
     const delta = Math.min(rawDelta, 0.1);
 
-    // 1. Rotasi matahari & efek pijar
+    // 1. Rotasi matahari & efek pijar (5x lebih cepat)
     if (this.sun) {
-      this.sun.coreMesh.rotation.y += 0.04 * delta * (this.isPlaying ? this.speedMultiplier : 0.2);
+      this.sun.coreMesh.rotation.y += 0.20 * delta * (this.isPlaying ? this.speedMultiplier : 0.2);
     }
 
-    // 2. Animasi Planet (Revolusi & Rotasi)
+    // 2. Revolusi sabuk asteroid mengelilingi matahari (diferensial keplerian multi-zona & tumbling)
+    if (this.asteroidBelt) {
+      if (this.asteroidBelt.userData && this.asteroidBelt.userData.update) {
+        this.asteroidBelt.userData.update(delta, this.speedMultiplier, this.isPlaying);
+      } else {
+        this.asteroidBelt.rotation.y += 0.018 * delta * (this.isPlaying ? this.speedMultiplier : 0.2);
+      }
+    }
+
+    // 3. Animasi Planet (Revolusi & Rotasi)
     this.planetObjects.forEach(p => {
       if (this.isPlaying) {
         const prevX = p.group.position.x;
         const prevZ = p.group.position.z;
 
-        // Revolusi mengelilingi matahari
+        // Revolusi mengelilingi matahari (Berlawanan arah jarum jam / Counter-clockwise dilihat dari kutub utara surya)
         p.angle += p.speed * 0.2 * this.speedMultiplier * delta;
         p.group.position.x = Math.cos(p.angle) * p.orbitDistance;
-        p.group.position.z = Math.sin(p.angle) * p.orbitDistance;
+        p.group.position.z = -Math.sin(p.angle) * p.orbitDistance;
 
         // Jika planet ini sedang dipilih dalam mode dekat, geser target dan kamera bersama pergerakan revolusi planet
         // sehingga rotasi manual kamera oleh pengguna dengan mouse/sentuhan tetap terjaga sempurna!
@@ -306,8 +371,8 @@ export class SolarSystemScene {
         }
       }
 
-      // Rotasi pada poros berbasis delta-time (independen dari refresh rate layar 60Hz/144Hz/200Hz)
-      const rotFactor = 8.0 * delta * (this.isPlaying ? this.speedMultiplier : 0.3);
+      // Rotasi pada poros berbasis delta-time (ditingkatkan 5x lebih cepat: dari 8.0 menjadi 40.0)
+      const rotFactor = 40.0 * delta * (this.isPlaying ? this.speedMultiplier : 0.3);
       p.bodyMesh.rotation.y += p.rotSpeed * rotFactor;
 
       // Awan bumi
@@ -321,10 +386,17 @@ export class SolarSystemScene {
 
     // 3. Transisi kamera yang mulus (smooth slerp/lerp)
     if (this.isTransitioning) {
-      this.camera.position.lerp(this.cameraTargetPos, 0.06);
-      this.controls.target.lerp(this.controlsTargetPos, 0.06);
+      if (this.selectedPlanetId) {
+        const selObj = this.planetObjects.find(p => p.data.id === this.selectedPlanetId);
+        if (selObj) {
+          this.computeCloseUpCameraTarget(selObj);
+        }
+      }
 
-      if (this.camera.position.distanceTo(this.cameraTargetPos) < 0.5) {
+      this.camera.position.lerp(this.cameraTargetPos, 0.08);
+      this.controls.target.lerp(this.controlsTargetPos, 0.08);
+
+      if (this.camera.position.distanceTo(this.cameraTargetPos) < 0.6) {
         this.camera.position.copy(this.cameraTargetPos);
         this.controls.target.copy(this.controlsTargetPos);
         this.isTransitioning = false;
@@ -360,11 +432,12 @@ export class SolarSystemScene {
     const width = this.container.clientWidth;
     const height = this.container.clientHeight;
 
-    const x = (pos.x * 0.5 + 0.5) * width;
-    const y = (-pos.y * 0.5 + 0.5) * height;
+    const x = Math.round((pos.x * 0.5 + 0.5) * width);
+    const y = Math.round((-pos.y * 0.5 + 0.5) * height);
 
     planetObj.labelEl.style.display = 'block';
-    planetObj.labelEl.style.transform = `translate(-50%, -100%) translate(${x}px, ${y}px)`;
+    planetObj.labelEl.style.left = `${x}px`;
+    planetObj.labelEl.style.top = `${y}px`;
   }
 
   destroy() {

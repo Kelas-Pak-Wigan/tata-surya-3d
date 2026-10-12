@@ -25,7 +25,7 @@ export class EarthScene {
     this.moonAngle = 0;
 
     this.animationFrameId = null;
-    this.clock = new THREE.Clock();
+    this.lastTime = performance.now();
 
     this.init();
   }
@@ -70,8 +70,11 @@ export class EarthScene {
     sunLight.position.set(-20, 8, 15);
     this.scene.add(sunLight);
 
-    const ambientLight = new THREE.AmbientLight(0x223344, 0.35);
+    const ambientLight = new THREE.AmbientLight(0x223348, 0.45);
     this.scene.add(ambientLight);
+
+    const hemiLight = new THREE.HemisphereLight(0x1a2638, 0x0a101a, 0.30);
+    this.scene.add(hemiLight);
 
     // 7. Globe Bumi
     const earthData = PLANETS_DATA.find(p => p.id === 'earth');
@@ -147,24 +150,27 @@ export class EarthScene {
   animate() {
     this.animationFrameId = requestAnimationFrame(this.animate);
 
-    const delta = Math.min(this.clock.getDelta(), 0.1);
+    const now = performance.now();
+    const rawDelta = (now - this.lastTime) / 1000;
+    this.lastTime = now;
+    const delta = Math.min(rawDelta, 0.1);
 
     if (this.isPlaying) {
-      // Rotasi bumi pada porosnya (berbasis delta-time, konsisten di semua refresh rate)
-      this.earthBodyMesh.rotation.y += 0.16 * delta * this.speedMultiplier;
+      // Rotasi bumi pada porosnya (5x lebih cepat: 0.16 * 5 = 0.80 rad/s)
+      this.earthBodyMesh.rotation.y += 0.80 * delta * this.speedMultiplier;
 
-      // Rotasi awan sedikit lebih cepat
+      // Rotasi awan sedikit lebih cepat (0.20 * 5 = 1.00 rad/s)
       if (this.cloudsMesh) {
-        this.cloudsMesh.rotation.y += 0.20 * delta * this.speedMultiplier;
+        this.cloudsMesh.rotation.y += 1.00 * delta * this.speedMultiplier;
       }
 
-      // Revolusi bulan mengitari bumi
-      this.moonAngle += 0.08 * delta * this.speedMultiplier;
+      // Revolusi bulan mengitari bumi (5x lebih cepat: 0.08 * 5 = 0.40 rad/s)
+      this.moonAngle += 0.40 * delta * this.speedMultiplier;
       this.moonMesh.position.x = Math.cos(this.moonAngle) * MOON_DATA.orbitRadius;
-      this.moonMesh.position.z = Math.sin(this.moonAngle) * MOON_DATA.orbitRadius;
+      this.moonMesh.position.z = -Math.sin(this.moonAngle) * MOON_DATA.orbitRadius;
 
-      // Rotasi bulan pada porosnya (sinkron pasang surut)
-      this.moonMesh.rotation.y += 0.08 * delta * this.speedMultiplier;
+      // Rotasi bulan pada porosnya (5x lebih cepat: sinkron pasang surut)
+      this.moonMesh.rotation.y += 0.40 * delta * this.speedMultiplier;
     }
 
     this.controls.update();
